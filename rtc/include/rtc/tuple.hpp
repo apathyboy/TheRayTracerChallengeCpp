@@ -40,11 +40,12 @@ struct tuple_t {
     return {-a.x, -a.y, -a.z, -a.w};
 }
 
-[[nodiscard]] inline tuple_t operator*(const tuple_t& a, float b)
+[[nodiscard]] inline tuple_t operator*(const tuple_t& a, float b) noexcept
 {
     return {a.x * b, a.y * b, a.z * b, a.w * b};
 }
 
+// @todo prevent divide by 0
 [[nodiscard]] inline tuple_t operator/(const tuple_t& a, float b)
 {
     return {a.x / b, a.y / b, a.z / b, a.w / b};
@@ -70,9 +71,15 @@ struct tuple_t {
     return {x, y, z, 0.f};
 }
 
-[[nodiscard]] inline float magnitude(const tuple_t& a)
+[[nodiscard]] inline float magnitude(const tuple_t& v) noexcept
 {
-    return rtc::sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+    return rtc::sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+}
+
+[[nodiscard]] inline tuple_t normalize(const tuple_t& v) noexcept
+{
+    auto m = rtc::magnitude(v);
+    return v * (1.f / m);
 }
 
 } // namespace rtc

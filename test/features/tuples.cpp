@@ -228,3 +228,44 @@ SCENARIO("Computing the magnitude of vector(-1, -2, -3)", "[tuples]")
         THEN("magnitude(v) == sqrt(14)") { REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14))); }
     }
 }
+
+SCENARIO("Normalizing vector(4, 0, 0) gives (1, 0, 0)", "[tuples]")
+{
+    GIVEN("v = vector(4, 0, 0)")
+    {
+        auto v = rtc::vector(4, 0, 0);
+
+        THEN("normalize(v) == vector(1, 0, 0)")
+        {
+            REQUIRE(rtc::normalize(v) == rtc::vector(1, 0, 0));
+        }
+    }
+}
+
+SCENARIO("Normalizing vector(1, 2, 3)", "[tuples]")
+{
+    GIVEN("v = vector(1, 2, 3)")
+    {
+        auto v = rtc::vector(1, 2, 3);
+
+        THEN("normalize(v) == approximately vector(0.26726, 0.53452,0.80178)")
+        {
+            REQUIRE(rtc::normalize(v) == rtc::tuple_t{0.26726f, 0.53452f, 0.80178f});
+        }
+    }
+}
+
+SCENARIO("The magnitude of a normalized vector", "[tuples]")
+{
+    GIVEN("v = vector(1, 2, 3)")
+    {
+        auto v = rtc::vector(1, 2, 3);
+
+        WHEN("norm = normalize(v)")
+        {
+            auto norm = rtc::normalize(v);
+
+            THEN("magnitude(norm) == 1") { REQUIRE(rtc::magnitude(norm) == 1.0_a); }
+        }
+    }
+}

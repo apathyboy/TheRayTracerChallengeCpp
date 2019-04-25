@@ -34,3 +34,83 @@ SCENARIO("A tuple with w=0 is a vector", "[tuples]")
         AND_THEN("a is a vector") { REQUIRE(rtc::is_vector(a)); }
     }
 }
+
+SCENARIO("point() creates tuples with w=1", "[tuples]")
+{
+    GIVEN("p = point(4, -4, 3)")
+    {
+        auto p = rtc::point(4, -4, 3);
+
+        THEN("p == tuple(4, -4, 3, 1)") { REQUIRE(p == rtc::tuple_t{4, -4, 3, 1}); }
+    }
+}
+
+SCENARIO("vector() creates tuples with w=0", "[tuples]")
+{
+    GIVEN("v = vector(4, -4, 3)")
+    {
+        auto v = rtc::vector(4, -4, 3);
+
+        THEN("v == tuple(4, -4, 3, 0)") { REQUIRE(v == rtc::tuple_t{4, -4, 3, 0}); }
+    }
+}
+
+SCENARIO("Adding two tuples", "[tuples]")
+{
+    GIVEN("a1 = tuple(3, -2, 5, 1)")
+    {
+        auto a1 = rtc::tuple_t{3, -2, 5, 1};
+
+        AND_GIVEN("a2 = tuple(-2, 3, 1, 0)")
+        {
+            auto a2 = rtc::tuple_t{-2, 3, 1, 0};
+
+            THEN("a1 + a2 == tuple(1, 1, 6, 1)") { REQUIRE(a1 + a2 == rtc::tuple_t{1, 1, 6, 1}); }
+        }
+    }
+}
+
+SCENARIO("Subtracting two points", "[tuples]")
+{
+    GIVEN("p1 = point(3, 2, 1)")
+    {
+        auto p1 = rtc::point(3, 2, 1);
+
+        AND_GIVEN("p2 = point(5, 6, 7)")
+        {
+            auto p2 = rtc::point(5, 6, 7);
+
+            THEN("p1 - p2 == vector(-2, -4, -6)") { REQUIRE(p1 - p2 == rtc::vector(-2, -4, -6)); }
+        }
+    }
+}
+
+SCENARIO("Subtracting a vector from a point", "[tuples]")
+{
+    GIVEN("p = point(3, 2, 1)")
+    {
+        auto p = rtc::point(3, 2, 1);
+
+        AND_GIVEN("v = vector(5, 6, 7)")
+        {
+            auto v = rtc::vector(5, 6, 7);
+
+            THEN("p - v == point(-2, -4, -6)") { REQUIRE(p - v == rtc::point(-2, -4, -6)); }
+        }
+    }
+}
+
+SCENARIO("Subtracting two vectors", "[tuples]")
+{
+    GIVEN("v1 = vector(3, 2, 1)")
+    {
+        auto v1 = rtc::vector(3, 2, 1);
+
+        AND_GIVEN("v2 = vector(5, 6, 7)")
+        {
+            auto v2 = rtc::vector(5, 6, 7);
+
+            THEN("v1 - v2 == vector(-2, -4, -6)") { REQUIRE(v1 - v2 == rtc::vector(-2, -4, -6)); }
+        }
+    }
+}

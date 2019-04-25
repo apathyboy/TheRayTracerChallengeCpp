@@ -114,3 +114,41 @@ SCENARIO("Subtracting two vectors", "[tuples]")
         }
     }
 }
+
+SCENARIO("Subtracting a vector from the zero vector", "[tuples]")
+{
+    GIVEN("zero = vector(0, 0, 0)")
+    {
+        auto zero = rtc::vector(0, 0, 0);
+
+        AND_GIVEN("v = vector(1, -2, 3)")
+        {
+            auto v = rtc::vector(1, -2, 3);
+
+            THEN("zero - v == vector(-1, 2, -3)") { REQUIRE(zero - v == rtc::vector(-1, 2, -3)); }
+        }
+    }
+}
+
+SCENARIO("Negating a tuple", "[tuples]")
+{
+    GIVEN("a = tuple(1, -2, 3, -4)")
+    {
+        auto a = rtc::tuple_t{1, -2, 3, -4};
+
+        THEN("-a == tuple(-1, 2, -3, 4)") { REQUIRE(-a == rtc::tuple_t{-1, 2, -3, 4}); }
+    }
+}
+
+SCENARIO("Multiplying a tuple by a scalar", "[tuples]")
+{
+    GIVEN("a = tuple(1, -2, 3, -4)")
+    {
+        auto a = rtc::tuple_t{1, -2, 3, -4};
+
+        THEN("a * 3.5 = tuple(3.5, -7, 10.5, -14)")
+        {
+            REQUIRE(a * 3.5f == rtc::tuple_t{3.5f, -7, 10.5f, -14});
+        }
+    }
+}

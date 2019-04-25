@@ -17,6 +17,11 @@ static constexpr float EPSILON = 0.00001f;
     return std::fabs(a - b) < EPSILON;
 }
 
+[[nodiscard]] inline float sqrt(float x) noexcept
+{
+    return std::sqrtf(x);
+}
+
 } // namespace rtc
 
 #endif // RTC_MATH_HPP_

@@ -70,6 +70,11 @@ struct tuple_t {
     return {x, y, z, 0.f};
 }
 
+[[nodiscard]] inline float magnitude(const tuple_t& a)
+{
+    return rtc::sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+}
+
 } // namespace rtc
 
 #endif // RTC_TUPLE_HPP_

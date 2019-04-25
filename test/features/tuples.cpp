@@ -178,3 +178,53 @@ SCENARIO("Dividing a tuple by a scalar", "[tuples]")
         }
     }
 }
+
+SCENARIO("Computing the magnitude of vector(1, 0, 0)", "[tuples]")
+{
+    GIVEN("v = vector(1, 0, 0)")
+    {
+        auto v = rtc::vector(1, 0, 0);
+
+        THEN("magnitude(v) == 1") { REQUIRE(rtc::magnitude(v) == 1.0_a); }
+    }
+}
+
+SCENARIO("Computing the magnitude of vector(0, 1, 0)", "[tuples]")
+{
+    GIVEN("v = vector(0, 1, 0)")
+    {
+        auto v = rtc::vector(0, 1, 0);
+
+        THEN("magnitude(v) == 1") { REQUIRE(rtc::magnitude(v) == 1.0_a); }
+    }
+}
+
+SCENARIO("Computing the magnitude of vector(0, 0, 1)", "[tuples]")
+{
+    GIVEN("v = vector(0, 0, 1)")
+    {
+        auto v = rtc::vector(0, 0, 1);
+
+        THEN("magnitude(v) == 1") { REQUIRE(rtc::magnitude(v) == 1.0_a); }
+    }
+}
+
+SCENARIO("Computing the magnitude of vector(1, 2, 3)", "[tuples]")
+{
+    GIVEN("v = vector(1, 2, 3)")
+    {
+        auto v = rtc::vector(1, 2, 3);
+
+        THEN("magnitude(v) == sqrt(14)") { REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14))); }
+    }
+}
+
+SCENARIO("Computing the magnitude of vector(-1, -2, -3)", "[tuples]")
+{
+    GIVEN("v = vector(-1, -2, -3)")
+    {
+        auto v = rtc::vector(-1, -2, -3);
+
+        THEN("magnitude(v) == sqrt(14)") { REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14))); }
+    }
+}

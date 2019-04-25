@@ -21,7 +21,8 @@ static projectile_t tick(const environment_t& env, const projectile_t& proj)
 
 int main()
 {
-    auto p = projectile_t{rtc::point(0, 1, 0), rtc::normalize(rtc::vector(1, 1, 0))};
+    auto p = projectile_t{rtc::point(0, 1, 0),
+                          rtc::normalize(rtc::vector(1, 1, 0))};
     auto e = environment_t{rtc::vector(0, -0.1f, 0), rtc::vector(-0.01f, 0, 0)};
 
     while (p.position.y > 0.f) {

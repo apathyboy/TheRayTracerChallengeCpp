@@ -65,7 +65,10 @@ SCENARIO("Adding two tuples", "[tuples]")
         {
             auto a2 = rtc::tuple_t{-2, 3, 1, 0};
 
-            THEN("a1 + a2 == tuple(1, 1, 6, 1)") { REQUIRE(a1 + a2 == rtc::tuple_t{1, 1, 6, 1}); }
+            THEN("a1 + a2 == tuple(1, 1, 6, 1)")
+            {
+                REQUIRE(a1 + a2 == rtc::tuple_t{1, 1, 6, 1});
+            }
         }
     }
 }
@@ -80,7 +83,10 @@ SCENARIO("Subtracting two points", "[tuples]")
         {
             auto p2 = rtc::point(5, 6, 7);
 
-            THEN("p1 - p2 == vector(-2, -4, -6)") { REQUIRE(p1 - p2 == rtc::vector(-2, -4, -6)); }
+            THEN("p1 - p2 == vector(-2, -4, -6)")
+            {
+                REQUIRE(p1 - p2 == rtc::vector(-2, -4, -6));
+            }
         }
     }
 }
@@ -95,7 +101,10 @@ SCENARIO("Subtracting a vector from a point", "[tuples]")
         {
             auto v = rtc::vector(5, 6, 7);
 
-            THEN("p - v == point(-2, -4, -6)") { REQUIRE(p - v == rtc::point(-2, -4, -6)); }
+            THEN("p - v == point(-2, -4, -6)")
+            {
+                REQUIRE(p - v == rtc::point(-2, -4, -6));
+            }
         }
     }
 }
@@ -110,7 +119,10 @@ SCENARIO("Subtracting two vectors", "[tuples]")
         {
             auto v2 = rtc::vector(5, 6, 7);
 
-            THEN("v1 - v2 == vector(-2, -4, -6)") { REQUIRE(v1 - v2 == rtc::vector(-2, -4, -6)); }
+            THEN("v1 - v2 == vector(-2, -4, -6)")
+            {
+                REQUIRE(v1 - v2 == rtc::vector(-2, -4, -6));
+            }
         }
     }
 }
@@ -125,7 +137,10 @@ SCENARIO("Subtracting a vector from the zero vector", "[tuples]")
         {
             auto v = rtc::vector(1, -2, 3);
 
-            THEN("zero - v == vector(-1, 2, -3)") { REQUIRE(zero - v == rtc::vector(-1, 2, -3)); }
+            THEN("zero - v == vector(-1, 2, -3)")
+            {
+                REQUIRE(zero - v == rtc::vector(-1, 2, -3));
+            }
         }
     }
 }
@@ -136,7 +151,10 @@ SCENARIO("Negating a tuple", "[tuples]")
     {
         auto a = rtc::tuple_t{1, -2, 3, -4};
 
-        THEN("-a == tuple(-1, 2, -3, 4)") { REQUIRE(-a == rtc::tuple_t{-1, 2, -3, 4}); }
+        THEN("-a == tuple(-1, 2, -3, 4)")
+        {
+            REQUIRE(-a == rtc::tuple_t{-1, 2, -3, 4});
+        }
     }
 }
 
@@ -215,7 +233,10 @@ SCENARIO("Computing the magnitude of vector(1, 2, 3)", "[tuples]")
     {
         auto v = rtc::vector(1, 2, 3);
 
-        THEN("magnitude(v) == sqrt(14)") { REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14))); }
+        THEN("magnitude(v) == sqrt(14)")
+        {
+            REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14)));
+        }
     }
 }
 
@@ -225,7 +246,10 @@ SCENARIO("Computing the magnitude of vector(-1, -2, -3)", "[tuples]")
     {
         auto v = rtc::vector(-1, -2, -3);
 
-        THEN("magnitude(v) == sqrt(14)") { REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14))); }
+        THEN("magnitude(v) == sqrt(14)")
+        {
+            REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14)));
+        }
     }
 }
 
@@ -250,7 +274,8 @@ SCENARIO("Normalizing vector(1, 2, 3)", "[tuples]")
 
         THEN("normalize(v) == approximately vector(0.26726, 0.53452,0.80178)")
         {
-            REQUIRE(rtc::normalize(v) == rtc::tuple_t{0.26726f, 0.53452f, 0.80178f});
+            REQUIRE(rtc::normalize(v)
+                    == rtc::tuple_t{0.26726f, 0.53452f, 0.80178f});
         }
     }
 }

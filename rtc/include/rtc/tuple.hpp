@@ -15,6 +15,13 @@ struct tuple_t {
             float w;
         };
 
+        struct {
+            float red;
+            float green;
+            float blue;
+            float alpha;
+        };
+
         float elements[4];
     };
 };
@@ -33,6 +40,11 @@ struct tuple_t {
 [[nodiscard]] inline tuple_t operator-(const tuple_t& a, const tuple_t& b) noexcept
 {
     return {a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w};
+}
+
+[[nodiscard]] inline tuple_t operator*(const tuple_t& a, const tuple_t& b) noexcept
+{
+    return {a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w};
 }
 
 [[nodiscard]] inline tuple_t operator-(const tuple_t& a) noexcept
@@ -69,6 +81,11 @@ struct tuple_t {
 [[nodiscard]] inline tuple_t vector(float x, float y, float z) noexcept
 {
     return {x, y, z, 0.f};
+}
+
+[[nodiscard]] inline tuple_t color(float r, float g, float b) noexcept
+{
+    return {r, g, b, 0.f};
 }
 
 [[nodiscard]] inline float dot(const tuple_t& a, const tuple_t& b) noexcept

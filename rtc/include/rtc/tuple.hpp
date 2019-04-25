@@ -71,15 +71,25 @@ struct tuple_t {
     return {x, y, z, 0.f};
 }
 
+[[nodiscard]] inline float dot(const tuple_t& a, const tuple_t& b) noexcept
+{
+    return {a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w};
+}
+
 [[nodiscard]] inline float magnitude(const tuple_t& v) noexcept
 {
-    return rtc::sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+    return rtc::sqrt(rtc::dot(v, v));
 }
 
 [[nodiscard]] inline tuple_t normalize(const tuple_t& v) noexcept
 {
     auto m = rtc::magnitude(v);
     return v * (1.f / m);
+}
+
+[[nodiscard]] inline tuple_t cross(const tuple_t& a, const tuple_t& b) noexcept
+{
+    return rtc::vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 
 } // namespace rtc

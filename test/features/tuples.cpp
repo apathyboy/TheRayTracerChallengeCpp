@@ -269,3 +269,41 @@ SCENARIO("The magnitude of a normalized vector", "[tuples]")
         }
     }
 }
+
+SCENARIO("The dot product of two tuples", "[tuples]")
+{
+    GIVEN("a = vector(1, 2, 3)")
+    {
+        auto a = rtc::vector(1, 2, 3);
+
+        AND_GIVEN("b = vector(2, 3, 4)")
+        {
+            auto b = rtc::vector(2, 3, 4);
+
+            THEN("dot(a, b) == 20") { REQUIRE(rtc::dot(a, b) == 20.0_a); }
+        }
+    }
+}
+
+SCENARIO("The cross product of two vectors", "[tuples]")
+{
+    GIVEN("a = vector(1, 2, 3)")
+    {
+        auto a = rtc::vector(1, 2, 3);
+
+        AND_GIVEN("b = vector(2, 3, 4)")
+        {
+            auto b = rtc::vector(2, 3, 4);
+
+            THEN("cross(a, b) == vector(-1, 2, -1)")
+            {
+                REQUIRE(rtc::cross(a, b) == rtc::vector(-1, 2, -1));
+            }
+
+            AND_THEN("cross(b, a) == vector(1, -2, 1)")
+            {
+                REQUIRE(rtc::cross(b, a) == rtc::vector(1, -2, 1));
+            }
+        }
+    }
+}

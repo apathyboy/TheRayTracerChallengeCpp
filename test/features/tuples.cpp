@@ -152,3 +152,29 @@ SCENARIO("Multiplying a tuple by a scalar", "[tuples]")
         }
     }
 }
+
+SCENARIO("Multiplying a tuple by a fraction", "[tuples]")
+{
+    GIVEN("a = tuple(1, -2, 3, -4)")
+    {
+        auto a = rtc::tuple_t{1, -2, 3, -4};
+
+        THEN("a * 0.5 == tuple(0.5, -1, 1.5, -2)")
+        {
+            REQUIRE(a * 0.5f == rtc::tuple_t{0.5f, -1, 1.5f, -2});
+        }
+    }
+}
+
+SCENARIO("Dividing a tuple by a scalar", "[tuples]")
+{
+    GIVEN("a = tuple(1, -2, 3, -4)")
+    {
+        auto a = rtc::tuple_t{1, -2, 3, -4};
+
+        THEN("a / 2 == tuple(0.5, -1, 1.5, -2)")
+        {
+            REQUIRE(a / 2 == rtc::tuple_t{0.5, -1, 1.5, -2});
+        }
+    }
+}

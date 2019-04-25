@@ -45,6 +45,11 @@ struct tuple_t {
     return {a.x * b, a.y * b, a.z * b, a.w * b};
 }
 
+[[nodiscard]] inline tuple_t operator/(const tuple_t& a, float b)
+{
+    return {a.x / b, a.y / b, a.z / b, a.w / b};
+}
+
 [[nodiscard]] inline bool is_point(const tuple_t& t) noexcept
 {
     return rtc::equal(t.w, 1.f);

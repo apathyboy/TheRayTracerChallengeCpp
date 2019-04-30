@@ -4,6 +4,7 @@ add_executable(rtc-tests)
 target_sources(rtc-tests
     PRIVATE "main.cpp"
 
+            "features/canvas.cpp"
             "features/tuples.cpp"
             )
 

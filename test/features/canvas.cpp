@@ -96,3 +96,59 @@ SCENARIO("Constructing the BMP header", "[canvas]")
         }
     }
 }
+
+SCENARIO("Constructing the BMP pixel data")
+{
+    GIVEN("c = canvas(5, 3)")
+    {
+        auto c = rtc::canvas_t{5, 3};
+
+        AND_GIVEN("c1 = color(1.5, 0, 0)")
+        {
+            auto c1 = rtc::color(1.5f, 0, 0);
+
+            AND_GIVEN("c2 = color(0, 0.5, 0)")
+            {
+                auto c2 = rtc::color(0, 0.5f, 0);
+
+                AND_GIVEN("c3 = color(-0.5, 0, 1)")
+                {
+                    auto c3 = rtc::color(-0.5, 0, 1);
+
+                    WHEN("write_pixel(c, 0, 0, c1)")
+                    {
+                        c.write_pixel(0, 0, c1);
+
+                        AND_WHEN("write_pixel(c, 2, 1, c2)")
+                        {
+                            c.write_pixel(2, 1, c2);
+
+                            AND_WHEN("write_pixel(c, 4, 2, c3)")
+                            {
+                                c.write_pixel(4, 2, c3);
+
+                                AND_WHEN("bmp = canvas_to_bmp(c)")
+                                {
+                                    auto bmp = rtc::canvas_to_bmp(c);
+
+                                    THEN("bmp.data at offset 0 is 255")
+                                    {
+                                        REQUIRE(bmp.data[0] == 255);
+                                    }
+                                    AND_THEN("bmp.data at offset 29 is 128")
+                                    {
+                                        REQUIRE(bmp.data[29] == 128);
+                                    }
+                                    AND_THEN("bmp.data at offset 58 is 255")
+                                    {
+                                        REQUIRE(bmp.data[58] == 255);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

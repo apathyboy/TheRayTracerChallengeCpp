@@ -4,6 +4,7 @@
 
 #include "tuple.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include <vector>
 
@@ -51,7 +52,8 @@ struct bitmap_header_t {
 };
 
 struct bitmap_t {
-    bitmap_header_t header;
+    bitmap_header_t      header;
+    std::vector<uint8_t> data;
 };
 
 inline bitmap_t canvas_to_bmp(const canvas_t& canvas)
@@ -63,6 +65,21 @@ inline bitmap_t canvas_to_bmp(const canvas_t& canvas)
     bitmap.header.planes    = 1;
     bitmap.header.bit_count = 32;
 
+    bitmap.data.resize(bitmap.header.height * bitmap.header.width
+                       * sizeof(uint32_t));
+
+    uint32_t pixel_offset = 0;
+
+    for (uint32_t y = 0; y < canvas.height(); ++y) {
+        for (uint32_t x = 0; x < canvas.width(); ++x) {
+            auto pixel = canvas.pixel_at(x, y);
+
+            for (auto e : pixel.elements) {
+                bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                    std::clamp(std::roundf(255.f * e), 0.f, 255.f));
+            }
+        }
+    }
     return bitmap;
 }
 

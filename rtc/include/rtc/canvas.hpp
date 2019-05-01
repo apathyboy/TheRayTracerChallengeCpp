@@ -37,6 +37,15 @@ public:
     }
 };
 
+#pragma pack(push, 2)
+struct bitmap_file_header_t {
+    const uint16_t type = 'BM';
+    uint32_t       size;
+    uint16_t       reserved1;
+    uint16_t       reserved2;
+    uint32_t       off_bits;
+};
+
 struct bitmap_header_t {
     const uint32_t size = sizeof(bitmap_header_t);
     int32_t        width;
@@ -50,8 +59,10 @@ struct bitmap_header_t {
     uint32_t       clr_used;
     uint32_t       clr_important;
 };
+#pragma pack(pop)
 
 struct bitmap_t {
+    bitmap_file_header_t file_header;
     bitmap_header_t      header;
     std::vector<uint8_t> data;
 };
@@ -82,6 +93,19 @@ inline bitmap_t canvas_to_bmp(const canvas_t& canvas)
     }
     return bitmap;
 }
+
+inline bitmap_file_header_t file_header_from_bmp(const bitmap_t& bitmap)
+{
+    bitmap_file_header_t file_header = {};
+    file_header.size = sizeof(bitmap_file_header_t) + sizeof(bitmap_header_t)
+                       + static_cast<uint32_t>(bitmap.data.size());
+    file_header.off_bits = sizeof(bitmap_file_header_t) + sizeof(bitmap_header_t);
+
+    return file_header;
+}
+
+void write_bmp_to_file(const char* filename, const bitmap_t& bitmap);
+
 
 } // namespace rtc
 

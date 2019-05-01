@@ -2,7 +2,7 @@
 add_library(rtc)
 
 target_sources(rtc
-    PRIVATE "src/rtc.cpp")
+    PRIVATE "src/canvas.cpp")
 
 target_include_directories(rtc
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

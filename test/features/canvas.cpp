@@ -152,3 +152,42 @@ SCENARIO("Constructing the BMP pixel data")
         }
     }
 }
+
+SCENARIO("Construct the BMP file header", "[canvas]")
+{
+    GIVEN("c = canvas(5, 3)")
+    {
+        auto c = rtc::canvas_t{5, 3};
+
+        AND_GIVEN("bmp = canvas_to_bmp(c)")
+        {
+            auto bmp = rtc::canvas_to_bmp(c);
+
+            WHEN("bmp_file_header = file_header_from_bmp(bmp)")
+            {
+                auto bmp_file_header = rtc::file_header_from_bmp(bmp);
+
+                THEN("bmp_file_header.type == BM")
+                {
+                    REQUIRE(bmp_file_header.type == 'BM');
+                }
+                AND_THEN("bmp_file_header.size == 104")
+                {
+                    REQUIRE(bmp_file_header.size == 114);
+                }
+                AND_THEN("bmp_file_header.reserved1 == 0")
+                {
+                    REQUIRE(bmp_file_header.reserved1 == 0);
+                }
+                AND_THEN("bmp_file_header.reserved2 == 0")
+                {
+                    REQUIRE(bmp_file_header.reserved2 == 0);
+                }
+                AND_THEN("bmp_file_header.off_bits == 54")
+                {
+                    REQUIRE(bmp_file_header.off_bits == 54);
+                }
+            }
+        }
+    }
+}

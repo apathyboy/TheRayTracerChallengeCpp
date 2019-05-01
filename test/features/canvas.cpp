@@ -50,3 +50,49 @@ SCENARIO("Writing pixels to a canvas", "[canvas]")
         }
     }
 }
+
+SCENARIO("Constructing the BMP header", "[canvas]")
+{
+    GIVEN("c = canvas(5, 3)")
+    {
+        auto c = rtc::canvas_t{5, 3};
+
+        WHEN("bmp = canvas_to_bmp(c)")
+        {
+            auto bmp = rtc::canvas_to_bmp(c);
+
+            THEN("bmp.header.size == 40") { REQUIRE(bmp.header.size == 40); }
+            AND_THEN("bmp.header.width == 5") { REQUIRE(bmp.header.width == 5); }
+            AND_THEN("bmp.header.height == 3") { REQUIRE(bmp.header.height == 3); }
+            AND_THEN("bmp.header.planes == 1") { REQUIRE(bmp.header.planes == 1); }
+            AND_THEN("bmp.header.bit_count == 32")
+            {
+                REQUIRE(bmp.header.bit_count == 32);
+            }
+            AND_THEN("bmp.header.compression == 0")
+            {
+                REQUIRE(bmp.header.compression == 0);
+            }
+            AND_THEN("bmp.header.size_image == 0")
+            {
+                REQUIRE(bmp.header.size_image == 0);
+            }
+            AND_THEN("bmp.header.x_pels_per_meter == 0")
+            {
+                REQUIRE(bmp.header.x_pels_per_meter == 0);
+            }
+            AND_THEN("bmp.header.y_pels_per_meter == 0")
+            {
+                REQUIRE(bmp.header.y_pels_per_meter == 0);
+            }
+            AND_THEN("bmp.header.clr_used == 0")
+            {
+                REQUIRE(bmp.header.clr_used == 0);
+            }
+            AND_THEN("bmp.header.clr_important == 0")
+            {
+                REQUIRE(bmp.header.clr_important == 0);
+            }
+        }
+    }
+}

@@ -36,6 +36,36 @@ public:
     }
 };
 
+struct bitmap_header_t {
+    const uint32_t size = sizeof(bitmap_header_t);
+    int32_t        width;
+    int32_t        height;
+    uint16_t       planes;
+    uint16_t       bit_count;
+    uint32_t       compression;
+    uint32_t       size_image;
+    int32_t        x_pels_per_meter;
+    int32_t        y_pels_per_meter;
+    uint32_t       clr_used;
+    uint32_t       clr_important;
+};
+
+struct bitmap_t {
+    bitmap_header_t header;
+};
+
+inline bitmap_t canvas_to_bmp(const canvas_t& canvas)
+{
+    bitmap_t bitmap = {};
+
+    bitmap.header.height    = canvas.height();
+    bitmap.header.width     = canvas.width();
+    bitmap.header.planes    = 1;
+    bitmap.header.bit_count = 32;
+
+    return bitmap;
+}
+
 } // namespace rtc
 
 #endif // RTC_CANVAS_HPP_

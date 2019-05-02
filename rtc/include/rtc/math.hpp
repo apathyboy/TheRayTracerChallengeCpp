@@ -12,14 +12,9 @@ static constexpr float PI_3    = PI / 3.f;
 static constexpr float PI_2    = PI / 2.f;
 static constexpr float EPSILON = 0.00001f;
 
-[[nodiscard]] inline bool equal(float a, float b) noexcept
+[[nodiscard]] inline bool approx(float a, float b) noexcept
 {
     return std::fabs(a - b) < EPSILON;
-}
-
-[[nodiscard]] inline float sqrt(float x) noexcept
-{
-    return std::sqrtf(x);
 }
 
 } // namespace rtc

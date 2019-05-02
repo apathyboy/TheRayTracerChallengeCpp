@@ -235,7 +235,7 @@ SCENARIO("Computing the magnitude of vector(1, 2, 3)", "[tuples]")
 
         THEN("magnitude(v) == sqrt(14)")
         {
-            REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14)));
+            REQUIRE(rtc::magnitude(v) == Approx(std::sqrtf(14)));
         }
     }
 }
@@ -248,7 +248,7 @@ SCENARIO("Computing the magnitude of vector(-1, -2, -3)", "[tuples]")
 
         THEN("magnitude(v) == sqrt(14)")
         {
-            REQUIRE(rtc::magnitude(v) == Approx(rtc::sqrt(14)));
+            REQUIRE(rtc::magnitude(v) == Approx(std::sqrtf(14)));
         }
     }
 }

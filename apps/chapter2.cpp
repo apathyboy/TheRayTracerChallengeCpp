@@ -12,7 +12,8 @@ struct environment_t {
     rtc::tuple_t wind;
 };
 
-static projectile_t tick(const environment_t& env, const projectile_t& proj)
+[[nodiscard]] static projectile_t tick(const environment_t& env,
+                                       const projectile_t&  proj) noexcept
 {
     auto position = proj.position + proj.velocity;
     auto velocity = proj.velocity + env.gravity + env.wind;

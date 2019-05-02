@@ -28,8 +28,8 @@ struct tuple_t {
 
 [[nodiscard]] inline bool operator==(const tuple_t& a, const tuple_t& b) noexcept
 {
-    return rtc::equal(a.x, b.x) && rtc::equal(a.y, b.y) && rtc::equal(a.z, b.z)
-           && rtc::equal(a.w, b.w);
+    return rtc::approx(a.x, b.x) && rtc::approx(a.y, b.y) && rtc::approx(a.z, b.z)
+           && rtc::approx(a.w, b.w);
 }
 
 [[nodiscard]] inline tuple_t operator+(const tuple_t& a, const tuple_t& b) noexcept
@@ -65,12 +65,12 @@ struct tuple_t {
 
 [[nodiscard]] inline bool is_point(const tuple_t& t) noexcept
 {
-    return rtc::equal(t.w, 1.f);
+    return rtc::approx(t.w, 1.f);
 }
 
 [[nodiscard]] inline bool is_vector(const tuple_t& t) noexcept
 {
-    return rtc::equal(t.w, 0.f);
+    return rtc::approx(t.w, 0.f);
 }
 
 [[nodiscard]] inline tuple_t point(float x, float y, float z) noexcept
@@ -95,7 +95,7 @@ struct tuple_t {
 
 [[nodiscard]] inline float magnitude(const tuple_t& v) noexcept
 {
-    return rtc::sqrt(rtc::dot(v, v));
+    return std::sqrtf(rtc::dot(v, v));
 }
 
 [[nodiscard]] inline tuple_t normalize(const tuple_t& v) noexcept

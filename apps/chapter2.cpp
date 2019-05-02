@@ -24,14 +24,14 @@ struct environment_t {
 int main()
 {
     auto start    = rtc::point(0, 1, 0);
-    auto velocity = rtc::normalize(rtc::vector(1, 1.8f, 0)) * 11.25f;
+    auto velocity = rtc::normalize(rtc::vector(1, 1.8f, 0)) * 8.25f;
     auto proj     = projectile_t{start, velocity};
 
     auto gravity = rtc::vector(0, -0.1f, 0);
     auto wind    = rtc::vector(-0.01f, 0, 0);
     auto env     = environment_t{gravity, wind};
 
-    auto canvas = rtc::canvas_t{900, 550};
+    auto canvas = rtc::canvas_t{500, 300};
     auto color  = rtc::color(1, 1, 1);
 
     while (proj.position.y > 0.f) {

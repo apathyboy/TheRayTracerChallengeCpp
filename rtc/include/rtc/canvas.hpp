@@ -39,7 +39,7 @@ public:
 
 #pragma pack(push, 2)
 struct bitmap_file_header_t {
-    const uint16_t type = 'BM';
+    const uint16_t type = 'MB';
     uint32_t       size;
     uint16_t       reserved1;
     uint16_t       reserved2;
@@ -67,34 +67,7 @@ struct bitmap_t {
     std::vector<uint8_t> data;
 };
 
-inline bitmap_t canvas_to_bmp(const canvas_t& canvas)
-{
-    bitmap_t bitmap = {};
-
-    bitmap.header.height    = canvas.height();
-    bitmap.header.width     = canvas.width();
-    bitmap.header.planes    = 1;
-    bitmap.header.bit_count = 32;
-
-    bitmap.data.resize(bitmap.header.height * bitmap.header.width
-                       * sizeof(uint32_t));
-
-    uint32_t pixel_offset = 0;
-
-    for (uint32_t y = 0; y < canvas.height(); ++y) {
-        for (uint32_t x = 0; x < canvas.width(); ++x) {
-            auto pixel = canvas.pixel_at(x, y);
-
-            for (auto e : pixel.elements) {
-                bitmap.data[pixel_offset++] = static_cast<uint8_t>(
-                    std::clamp(std::roundf(255.f * e), 0.f, 255.f));
-            }
-        }
-    }
-    return bitmap;
-}
-
-inline bitmap_file_header_t file_header_from_bmp(const bitmap_t& bitmap)
+inline bitmap_file_header_t file_header_from_bmp(const bitmap_t& bitmap) noexcept
 {
     bitmap_file_header_t file_header = {};
     file_header.size = sizeof(bitmap_file_header_t) + sizeof(bitmap_header_t)
@@ -103,6 +76,8 @@ inline bitmap_file_header_t file_header_from_bmp(const bitmap_t& bitmap)
 
     return file_header;
 }
+
+bitmap_t canvas_to_bmp(const canvas_t& canvas);
 
 void write_bmp_to_file(const char* filename, const bitmap_t& bitmap);
 

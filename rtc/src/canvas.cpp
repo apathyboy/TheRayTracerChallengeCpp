@@ -1,7 +1,34 @@
 
 #include <rtc/canvas.hpp>
 
+#include <algorithm>
 #include <fstream>
+
+rtc::bitmap_t rtc::canvas_to_bmp(const rtc::canvas_t& canvas)
+{
+    rtc::bitmap_t bitmap = {};
+
+    bitmap.header.height    = -static_cast<int32_t>(canvas.height());
+    bitmap.header.width     = canvas.width();
+    bitmap.header.planes    = 1;
+    bitmap.header.bit_count = 32;
+
+    bitmap.data.resize(canvas.height() * canvas.width() * sizeof(uint32_t));
+
+    uint32_t pixel_offset = 0;
+
+    for (uint32_t y = 0; y < canvas.height(); ++y) {
+        for (uint32_t x = 0; x < canvas.width(); ++x) {
+            auto pixel = canvas.pixel_at(x, y);
+
+            for (auto e : pixel.elements) {
+                bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                    std::clamp(std::roundf(255.f * e), 0.f, 255.f));
+            }
+        }
+    }
+    return bitmap;
+}
 
 void rtc::write_bmp_to_file(const char* filename, const rtc::bitmap_t& bitmap)
 {

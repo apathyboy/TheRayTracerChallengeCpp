@@ -63,7 +63,7 @@ SCENARIO("Constructing the BMP header", "[canvas]")
 
             THEN("bmp.header.size == 40") { REQUIRE(bmp.header.size == 40); }
             AND_THEN("bmp.header.width == 5") { REQUIRE(bmp.header.width == 5); }
-            AND_THEN("bmp.header.height == 3") { REQUIRE(bmp.header.height == 3); }
+            AND_THEN("bmp.header.height == 3") { REQUIRE(bmp.header.height == -3); }
             AND_THEN("bmp.header.planes == 1") { REQUIRE(bmp.header.planes == 1); }
             AND_THEN("bmp.header.bit_count == 32")
             {
@@ -169,7 +169,7 @@ SCENARIO("Construct the BMP file header", "[canvas]")
 
                 THEN("bmp_file_header.type == BM")
                 {
-                    REQUIRE(bmp_file_header.type == 'BM');
+                    REQUIRE(bmp_file_header.type == 'MB');
                 }
                 AND_THEN("bmp_file_header.size == 104")
                 {

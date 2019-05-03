@@ -24,6 +24,9 @@ struct tuple_t {
 
         float elements[4];
     };
+
+    const float& operator[](int index) const { return elements[index]; }
+    float&       operator[](int index) { return elements[index]; }
 };
 
 [[nodiscard]] inline bool operator==(const tuple_t& a, const tuple_t& b) noexcept

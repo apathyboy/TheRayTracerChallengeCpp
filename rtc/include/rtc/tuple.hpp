@@ -6,7 +6,48 @@
 
 namespace rtc {
 
-struct tuple_t {
+template <int Length, typename T>
+struct tuple_t;
+
+template <typename T>
+struct tuple_t<2, T> {
+    union {
+        struct {
+            float x;
+            float y;
+        };
+
+        float elements[2];
+    };
+
+    const float& operator[](int index) const { return elements[index]; }
+    float&       operator[](int index) { return elements[index]; }
+};
+
+template <typename T>
+struct tuple_t<3, T> {
+    union {
+        struct {
+            float x;
+            float y;
+            float z;
+        };
+
+        struct {
+            float red;
+            float green;
+            float blue;
+        };
+
+        float elements[3];
+    };
+
+    const float& operator[](int index) const { return elements[index]; }
+    float&       operator[](int index) { return elements[index]; }
+};
+
+template <typename T>
+struct tuple_t<4, T> {
     union {
         struct {
             float x;
@@ -29,85 +70,180 @@ struct tuple_t {
     float&       operator[](int index) { return elements[index]; }
 };
 
-[[nodiscard]] inline bool operator==(const tuple_t& a, const tuple_t& b) noexcept
+using tuple2_t = tuple_t<2, float>;
+using tuple3_t = tuple_t<3, float>;
+using tuple4_t = tuple_t<4, float>;
+
+[[nodiscard]] inline bool operator==(const tuple2_t& a, const tuple2_t& b) noexcept
+{
+    return rtc::approx(a.x, b.x) && rtc::approx(a.y, b.y);
+}
+
+[[nodiscard]] inline bool operator==(const tuple3_t& a, const tuple3_t& b) noexcept
+{
+    return rtc::approx(a.x, b.x) && rtc::approx(a.y, b.y) && rtc::approx(a.z, b.z);
+}
+
+[[nodiscard]] inline bool operator==(const tuple4_t& a, const tuple4_t& b) noexcept
 {
     return rtc::approx(a.x, b.x) && rtc::approx(a.y, b.y) && rtc::approx(a.z, b.z)
            && rtc::approx(a.w, b.w);
 }
 
-[[nodiscard]] inline tuple_t operator+(const tuple_t& a, const tuple_t& b) noexcept
+[[nodiscard]] inline tuple2_t operator+(const tuple2_t& a,
+                                        const tuple2_t& b) noexcept
+{
+    return {a.x + b.x, a.y + b.y};
+}
+
+[[nodiscard]] inline tuple3_t operator+(const tuple3_t& a,
+                                        const tuple3_t& b) noexcept
+{
+    return {a.x + b.x, a.y + b.y, a.z + b.z};
+}
+
+[[nodiscard]] inline tuple4_t operator+(const tuple4_t& a,
+                                        const tuple4_t& b) noexcept
 {
     return {a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w};
 }
 
-[[nodiscard]] inline tuple_t operator-(const tuple_t& a, const tuple_t& b) noexcept
+[[nodiscard]] inline tuple2_t operator-(const tuple2_t& a,
+                                        const tuple2_t& b) noexcept
+{
+    return {a.x - b.x, a.y - b.y};
+}
+
+[[nodiscard]] inline tuple3_t operator-(const tuple3_t& a,
+                                        const tuple3_t& b) noexcept
+{
+    return {a.x - b.x, a.y - b.y, a.z - b.z};
+}
+
+[[nodiscard]] inline tuple4_t operator-(const tuple4_t& a,
+                                        const tuple4_t& b) noexcept
 {
     return {a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w};
 }
 
-[[nodiscard]] inline tuple_t operator*(const tuple_t& a, const tuple_t& b) noexcept
+[[nodiscard]] inline tuple2_t operator*(const tuple2_t& a,
+                                        const tuple2_t& b) noexcept
+{
+    return {a.x * b.x, a.y * b.y};
+}
+
+[[nodiscard]] inline tuple3_t operator*(const tuple3_t& a,
+                                        const tuple3_t& b) noexcept
+{
+    return {a.x * b.x, a.y * b.y, a.z * b.z};
+}
+
+[[nodiscard]] inline tuple4_t operator*(const tuple4_t& a,
+                                        const tuple4_t& b) noexcept
 {
     return {a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w};
 }
 
-[[nodiscard]] inline tuple_t operator-(const tuple_t& a) noexcept
+[[nodiscard]] inline tuple2_t operator-(const tuple2_t& a) noexcept
+{
+    return {-a.x, -a.y};
+}
+
+[[nodiscard]] inline tuple3_t operator-(const tuple3_t& a) noexcept
+{
+    return {-a.x, -a.y, -a.z};
+}
+
+[[nodiscard]] inline tuple4_t operator-(const tuple4_t& a) noexcept
 {
     return {-a.x, -a.y, -a.z, -a.w};
 }
 
-[[nodiscard]] inline tuple_t operator*(const tuple_t& a, float b) noexcept
+[[nodiscard]] inline tuple2_t operator*(const tuple2_t& a, float b) noexcept
+{
+    return {a.x * b, a.y * b};
+}
+
+[[nodiscard]] inline tuple3_t operator*(const tuple3_t& a, float b) noexcept
+{
+    return {a.x * b, a.y * b, a.z * b};
+}
+
+[[nodiscard]] inline tuple4_t operator*(const tuple4_t& a, float b) noexcept
 {
     return {a.x * b, a.y * b, a.z * b, a.w * b};
 }
 
 // @todo prevent divide by 0
-[[nodiscard]] inline tuple_t operator/(const tuple_t& a, float b)
+[[nodiscard]] inline tuple2_t operator/(const tuple2_t& a, float b)
+{
+    return {a.x / b, a.y / b};
+}
+
+[[nodiscard]] inline tuple3_t operator/(const tuple3_t& a, float b)
+{
+    return {a.x / b, a.y / b, a.z / b};
+}
+
+[[nodiscard]] inline tuple4_t operator/(const tuple4_t& a, float b)
 {
     return {a.x / b, a.y / b, a.z / b, a.w / b};
 }
 
-[[nodiscard]] inline bool is_point(const tuple_t& t) noexcept
+[[nodiscard]] inline bool is_point(const tuple4_t& t) noexcept
 {
     return rtc::approx(t.w, 1.f);
 }
 
-[[nodiscard]] inline bool is_vector(const tuple_t& t) noexcept
+[[nodiscard]] inline bool is_vector(const tuple4_t& t) noexcept
 {
     return rtc::approx(t.w, 0.f);
 }
 
-[[nodiscard]] inline tuple_t point(float x, float y, float z) noexcept
+[[nodiscard]] inline tuple4_t point(float x, float y, float z) noexcept
 {
     return {x, y, z, 1.f};
 }
 
-[[nodiscard]] inline tuple_t vector(float x, float y, float z) noexcept
+[[nodiscard]] inline tuple4_t vector(float x, float y, float z) noexcept
 {
     return {x, y, z, 0.f};
 }
 
-[[nodiscard]] inline tuple_t color(float r, float g, float b) noexcept
+[[nodiscard]] inline tuple4_t color(float r, float g, float b) noexcept
 {
     return {r, g, b, 0.f};
 }
 
-[[nodiscard]] inline float dot(const tuple_t& a, const tuple_t& b) noexcept
+[[nodiscard]] inline float dot(const tuple2_t& a, const tuple2_t& b) noexcept
+{
+    return {a.x * b.x + a.y * b.y};
+}
+
+[[nodiscard]] inline float dot(const tuple3_t& a, const tuple3_t& b) noexcept
+{
+    return {a.x * b.x + a.y * b.y + a.z * b.z};
+}
+
+[[nodiscard]] inline float dot(const tuple4_t& a, const tuple4_t& b) noexcept
 {
     return {a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w};
 }
 
-[[nodiscard]] inline float magnitude(const tuple_t& v) noexcept
+template <typename T>
+[[nodiscard]] inline float magnitude(const T& v) noexcept
 {
     return std::sqrtf(rtc::dot(v, v));
 }
 
-[[nodiscard]] inline tuple_t normalize(const tuple_t& v) noexcept
+template <typename T>
+[[nodiscard]] inline tuple4_t normalize(const T& v) noexcept
 {
     auto m = rtc::magnitude(v);
     return v * (1.f / m);
 }
 
-[[nodiscard]] inline tuple_t cross(const tuple_t& a, const tuple_t& b) noexcept
+[[nodiscard]] inline tuple4_t cross(const tuple4_t& a, const tuple4_t& b) noexcept
 {
     return rtc::vector(
         a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);

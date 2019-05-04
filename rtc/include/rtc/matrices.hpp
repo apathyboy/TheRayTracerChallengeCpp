@@ -11,7 +11,7 @@ namespace rtc {
 class matrix4x4_t {
     constexpr static int row_count = 4;
 
-    tuple_t rows_[row_count] = {};
+    tuple4_t rows_[row_count] = {};
 
 public:
     matrix4x4_t() = default;
@@ -28,8 +28,8 @@ public:
     {}
     // clang-format on
 
-    const tuple_t& operator[](int index) const { return rows_[index]; }
-    tuple_t&       operator[](int index) { return rows_[index]; }
+    const tuple4_t& operator[](int index) const { return rows_[index]; }
+    tuple4_t&       operator[](int index) { return rows_[index]; }
 };
 
 } // namespace rtc

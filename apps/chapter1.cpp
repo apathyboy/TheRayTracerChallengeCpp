@@ -2,13 +2,13 @@
 #include <rtc/tuple.hpp>
 
 struct projectile_t {
-    rtc::tuple_t position;
-    rtc::tuple_t velocity;
+    rtc::tuple4_t position;
+    rtc::tuple4_t velocity;
 };
 
 struct environment_t {
-    rtc::tuple_t gravity;
-    rtc::tuple_t wind;
+    rtc::tuple4_t gravity;
+    rtc::tuple4_t wind;
 };
 
 [[nodiscard]] static projectile_t tick(const environment_t& env,

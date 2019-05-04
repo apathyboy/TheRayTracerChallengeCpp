@@ -9,7 +9,7 @@ SCENARIO("A tuple with w=1.0 is a point", "[tuples]")
 {
     GIVEN("a = tuple(4.3, -4.2, 3.1, 1.0)")
     {
-        auto a = rtc::tuple_t{4.3f, -4.2f, 3.1f, 1.0f};
+        auto a = rtc::tuple4_t{4.3f, -4.2f, 3.1f, 1.0f};
 
         THEN("a.x == 4.3") { REQUIRE(a.x == 4.3_a); }
         AND_THEN("a.y == -4.2") { REQUIRE(a.y == -4.2_a); }
@@ -24,7 +24,7 @@ SCENARIO("A tuple with w=0 is a vector", "[tuples]")
 {
     GIVEN("a = tuple(4.3, -4.2, 3.1, 0.0)")
     {
-        auto a = rtc::tuple_t{4.3f, -4.2f, 3.1f, 0.f};
+        auto a = rtc::tuple4_t{4.3f, -4.2f, 3.1f, 0.f};
 
         THEN("a.x == 4.3") { REQUIRE(a.x == 4.3_a); }
         AND_THEN("a.y == -4.2") { REQUIRE(a.y == -4.2_a); }
@@ -41,7 +41,10 @@ SCENARIO("point() creates tuples with w=1", "[tuples]")
     {
         auto p = rtc::point(4, -4, 3);
 
-        THEN("p == tuple(4, -4, 3, 1)") { REQUIRE(p == rtc::tuple_t{4, -4, 3, 1}); }
+        THEN("p == tuple(4, -4, 3, 1)")
+        {
+            REQUIRE(p == rtc::tuple4_t{4, -4, 3, 1});
+        }
     }
 }
 
@@ -51,7 +54,10 @@ SCENARIO("vector() creates tuples with w=0", "[tuples]")
     {
         auto v = rtc::vector(4, -4, 3);
 
-        THEN("v == tuple(4, -4, 3, 0)") { REQUIRE(v == rtc::tuple_t{4, -4, 3, 0}); }
+        THEN("v == tuple(4, -4, 3, 0)")
+        {
+            REQUIRE(v == rtc::tuple4_t{4, -4, 3, 0});
+        }
     }
 }
 
@@ -59,15 +65,15 @@ SCENARIO("Adding two tuples", "[tuples]")
 {
     GIVEN("a1 = tuple(3, -2, 5, 1)")
     {
-        auto a1 = rtc::tuple_t{3, -2, 5, 1};
+        auto a1 = rtc::tuple4_t{3, -2, 5, 1};
 
         AND_GIVEN("a2 = tuple(-2, 3, 1, 0)")
         {
-            auto a2 = rtc::tuple_t{-2, 3, 1, 0};
+            auto a2 = rtc::tuple4_t{-2, 3, 1, 0};
 
             THEN("a1 + a2 == tuple(1, 1, 6, 1)")
             {
-                REQUIRE(a1 + a2 == rtc::tuple_t{1, 1, 6, 1});
+                REQUIRE(a1 + a2 == rtc::tuple4_t{1, 1, 6, 1});
             }
         }
     }
@@ -149,11 +155,11 @@ SCENARIO("Negating a tuple", "[tuples]")
 {
     GIVEN("a = tuple(1, -2, 3, -4)")
     {
-        auto a = rtc::tuple_t{1, -2, 3, -4};
+        auto a = rtc::tuple4_t{1, -2, 3, -4};
 
         THEN("-a == tuple(-1, 2, -3, 4)")
         {
-            REQUIRE(-a == rtc::tuple_t{-1, 2, -3, 4});
+            REQUIRE(-a == rtc::tuple4_t{-1, 2, -3, 4});
         }
     }
 }
@@ -162,11 +168,11 @@ SCENARIO("Multiplying a tuple by a scalar", "[tuples]")
 {
     GIVEN("a = tuple(1, -2, 3, -4)")
     {
-        auto a = rtc::tuple_t{1, -2, 3, -4};
+        auto a = rtc::tuple4_t{1, -2, 3, -4};
 
         THEN("a * 3.5 = tuple(3.5, -7, 10.5, -14)")
         {
-            REQUIRE(a * 3.5f == rtc::tuple_t{3.5f, -7, 10.5f, -14});
+            REQUIRE(a * 3.5f == rtc::tuple4_t{3.5f, -7, 10.5f, -14});
         }
     }
 }
@@ -175,11 +181,11 @@ SCENARIO("Multiplying a tuple by a fraction", "[tuples]")
 {
     GIVEN("a = tuple(1, -2, 3, -4)")
     {
-        auto a = rtc::tuple_t{1, -2, 3, -4};
+        auto a = rtc::tuple4_t{1, -2, 3, -4};
 
         THEN("a * 0.5 == tuple(0.5, -1, 1.5, -2)")
         {
-            REQUIRE(a * 0.5f == rtc::tuple_t{0.5f, -1, 1.5f, -2});
+            REQUIRE(a * 0.5f == rtc::tuple4_t{0.5f, -1, 1.5f, -2});
         }
     }
 }
@@ -188,11 +194,11 @@ SCENARIO("Dividing a tuple by a scalar", "[tuples]")
 {
     GIVEN("a = tuple(1, -2, 3, -4)")
     {
-        auto a = rtc::tuple_t{1, -2, 3, -4};
+        auto a = rtc::tuple4_t{1, -2, 3, -4};
 
         THEN("a / 2 == tuple(0.5, -1, 1.5, -2)")
         {
-            REQUIRE(a / 2 == rtc::tuple_t{0.5, -1, 1.5, -2});
+            REQUIRE(a / 2 == rtc::tuple4_t{0.5, -1, 1.5, -2});
         }
     }
 }
@@ -275,7 +281,7 @@ SCENARIO("Normalizing vector(1, 2, 3)", "[tuples]")
         THEN("normalize(v) == approximately vector(0.26726, 0.53452,0.80178)")
         {
             REQUIRE(rtc::normalize(v)
-                    == rtc::tuple_t{0.26726f, 0.53452f, 0.80178f});
+                    == rtc::tuple4_t{0.26726f, 0.53452f, 0.80178f});
         }
     }
 }

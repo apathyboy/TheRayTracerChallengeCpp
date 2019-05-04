@@ -14,7 +14,7 @@ class canvas_t {
     uint32_t width_;
     uint32_t height_;
 
-    std::vector<tuple_t> pixels_;
+    std::vector<tuple4_t> pixels_;
 
 public:
     canvas_t(uint32_t width, uint32_t height)
@@ -27,11 +27,11 @@ public:
     [[nodiscard]] uint32_t width() const noexcept { return width_; }
     [[nodiscard]] uint32_t height() const noexcept { return height_; }
 
-    [[nodiscard]] tuple_t pixel_at(uint32_t x, uint32_t y) const {
+    [[nodiscard]] tuple4_t pixel_at(uint32_t x, uint32_t y) const {
         return pixels_.at(width_ * y + x);
     }
 
-    void write_pixel(uint32_t x, uint32_t y, tuple_t color) noexcept
+    void write_pixel(uint32_t x, uint32_t y, tuple4_t color) noexcept
     {
         pixels_.at(width_ * y + x) = color;
     }

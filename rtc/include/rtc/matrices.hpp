@@ -18,7 +18,7 @@ public:
 
     // clang-format off
     matrix2x2_t(float val0_0, float val0_1,
-              float val1_0, float val1_1) noexcept
+                float val1_0, float val1_1) noexcept
         : rows_{{val0_0, val0_1},
                 {val1_0, val1_1}}
     {}
@@ -38,8 +38,8 @@ public:
 
     // clang-format off
     matrix3x3_t(float val0_0, float val0_1, float val0_2,
-              float val1_0, float val1_1, float val1_2,
-              float val2_0, float val2_1, float val2_2) noexcept
+                float val1_0, float val1_1, float val1_2,
+                float val2_0, float val2_1, float val2_2) noexcept
         : rows_{{val0_0, val0_1, val0_2},
                 {val1_0, val1_1, val1_2},
                 {val2_0, val2_1, val2_2}}
@@ -60,9 +60,9 @@ public:
 
     // clang-format off
     matrix4x4_t(float val0_0, float val0_1, float val0_2, float val0_3,
-              float val1_0, float val1_1, float val1_2, float val1_3,
-              float val2_0, float val2_1, float val2_2, float val2_3,
-              float val3_0, float val3_1, float val3_2, float val3_3) noexcept
+                float val1_0, float val1_1, float val1_2, float val1_3,
+                float val2_0, float val2_1, float val2_2, float val2_3,
+                float val3_0, float val3_1, float val3_2, float val3_3) noexcept
         : rows_{{val0_0, val0_1, val0_2, val0_3},
                 {val1_0, val1_1, val1_2, val1_3},
                 {val2_0, val2_1, val2_2, val2_3},

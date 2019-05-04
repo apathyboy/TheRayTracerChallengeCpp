@@ -30,3 +30,19 @@ SCENARIO("Constructing and inspecting a 4x4 matrix", "[matrices]")
         AND_THEN("M[3,2] == 15.5") { REQUIRE(M[3][2] == 15.5_a); }
     }
 }
+
+SCENARIO("Constructing and inspecting a 2x2 matrix", "[matrices]")
+{
+    GIVEN(
+        "The following 2x2 matrix M:\n"
+        "| -3 |  5 |\n"
+        "|  1 | -2 |")
+    {
+        auto M = rtc::matrix2x2_t{-3, 5, 1, -2};
+
+        THEN("M[0,0] == -3") { REQUIRE(M[0][0] == -3_a); }
+        AND_THEN("M[0,1] == 5") { REQUIRE(M[0][1] == 5_a); }
+        AND_THEN("M[1,0] == 1") { REQUIRE(M[1][0] == 1_a); }
+        AND_THEN("M[1,1] == -2") { REQUIRE(M[1][1] == -2_a); }
+    }
+}

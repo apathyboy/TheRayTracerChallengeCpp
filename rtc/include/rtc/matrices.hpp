@@ -8,6 +8,26 @@
 
 namespace rtc {
 
+class matrix2x2_t {
+    constexpr static int row_count = 2;
+
+    tuple4_t rows_[row_count] = {};
+
+public:
+    matrix2x2_t() = default;
+
+    // clang-format off
+    matrix2x2_t(float val0_0, float val0_1,
+              float val1_0, float val1_1) noexcept
+        : rows_{{val0_0, val0_1},
+                {val1_0, val1_1}}
+    {}
+    // clang-format on
+
+    const tuple4_t& operator[](int index) const { return rows_[index]; }
+    tuple4_t&       operator[](int index) { return rows_[index]; }
+};
+
 class matrix4x4_t {
     constexpr static int row_count = 4;
 

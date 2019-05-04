@@ -62,3 +62,122 @@ SCENARIO("Constructing and inspecting a 3x3 matrix", "[matrices]")
         THEN("M[2,2] == 1") { REQUIRE(M[2][2] == 1_a); }
     }
 }
+
+SCENARIO("Matrix equality with identical matrices", "[matrices]")
+{
+    GIVEN(
+        "The following matrix A:\n"
+        "| 1 | 2 | 3 | 4 |\n"
+        "| 5 | 6 | 7 | 8 |\n"
+        "| 9 | 8 | 7 | 6 |\n"
+        "| 5 | 4 | 3 | 2 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{1, 2, 3, 4,
+                                  5, 6, 7, 8,
+                                  9, 8, 7, 6,
+                                  5, 4, 3, 2};
+        // clang-format on
+
+        AND_GIVEN(
+            "The following matrix B:\n"
+            "| 1 | 2 | 3 | 4 |\n"
+            "| 5 | 6 | 7 | 8 |\n"
+            "| 9 | 8 | 7 | 6 |\n"
+            "| 5 | 4 | 3 | 2 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{1, 2, 3, 4,
+                                      5, 6, 7, 8,
+                                      9, 8, 7, 6,
+                                      5, 4, 3, 2};
+            // clang-format on
+
+            THEN("A == B") { REQUIRE(A == B); }
+        }
+    }
+}
+
+SCENARIO("Matrix equality with different matrices", "[matrices]")
+{
+    GIVEN(
+        "the following matrix A:\n"
+        "| 1 | 2 | 3 | 4 |\n"
+        "| 5 | 6 | 7 | 8 |\n"
+        "| 9 | 8 | 7 | 6 |\n"
+        "| 5 | 4 | 3 | 2 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{1, 2, 3, 4,
+                                  5, 6, 7, 8,
+                                  9, 8, 7, 6,
+                                  5, 4, 3, 2};
+        // clang-format on
+        AND_GIVEN(
+            "the following matrix B:\n"
+            "| 2 | 3 | 4 | 5 |\n"
+            "| 6 | 7 | 8 | 9 |\n"
+            "| 8 | 7 | 6 | 5 |\n"
+            "| 4 | 3 | 2 | 1 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{2, 3, 4, 5,
+                                      6, 7, 8, 9,
+                                      8, 7, 6, 5,
+                                      4, 3, 2, 1};
+            // clang-format on
+
+            THEN("A != B") { REQUIRE(A != B); }
+        }
+    }
+}
+
+SCENARIO("Multiplying two matrices", "[matrices]")
+{
+    GIVEN(
+        "The following matrix A:\n"
+        "| 1 | 2 | 3 | 4 |\n"
+        "| 5 | 6 | 7 | 8 |\n"
+        "| 9 | 8 | 7 | 6 |\n"
+        "| 5 | 4 | 3 | 2 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{1, 2, 3, 4,
+                                  5, 6, 7, 8,
+                                  9, 8, 7, 6,
+                                  5, 4, 3, 2};
+        // clang-format on
+
+        AND_GIVEN(
+            "The following matrix B:\n"
+            "| -2 | 1 | 2 |  3 |\n"
+            "|  3 | 2 | 1 | -1 |\n"
+            "|  4 | 3 | 6 |  5 |\n"
+            "|  1 | 2 | 7 |  8 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{-2, 1, 2, 3,
+                                      3, 2, 1, -1,
+                                      4, 3, 6, 5,
+                                      1, 2, 7, 8};
+            // clang-format on
+
+            THEN(
+                "A * B is the following 4x4 matrix\n"
+                "| 20 |  22 |  50 |  48 |\n"
+                "| 44 |  54 | 114 | 108 |\n"
+                "| 40 |  58 | 110 | 102 |\n"
+                "| 16 |  26 |  46 |  42 |")
+            {
+                // clang-format off
+                auto C = rtc::matrix4x4_t{20, 22, 50, 48,
+                                          44, 54, 114, 108,
+                                          40, 58, 110, 102,
+                                          16, 26, 46, 42};
+                // clang-format on
+
+                REQUIRE(A * B == C);
+            }
+        }
+    }
+}

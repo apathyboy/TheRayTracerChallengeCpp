@@ -188,6 +188,12 @@ submatrix(const matrix4x4_t& a, int exclusion_row, int exclusion_col) noexcept
     return submatrix<matrix4x4_t, matrix3x3_t>(a, exclusion_row, exclusion_col);
 }
 
+inline float
+minor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
+{
+    return rtc::determinant(rtc::submatrix(a, exclusion_row, exclusion_col));
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

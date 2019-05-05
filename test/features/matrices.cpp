@@ -337,3 +337,30 @@ SCENARIO("A submatrix of a 4x4 matrix is a 3x3 matrix", "[matrices]")
         }
     }
 }
+
+SCENARIO("Calculating a minor of a 3x3 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 3x3 matrix A:\n"
+        "|  3 |  5 |  0 |\n"
+        "|  2 | -1 | -7 |\n"
+        "|  6 | -1 |  5 |")
+    {
+        auto A = rtc::matrix3x3_t{3, 5, 0, 2, -1, -7, 6, -1, 5};
+
+        AND_GIVEN("B = submatrix(A, 1, 0)")
+        {
+            auto B = rtc::submatrix(A, 1, 0);
+
+            THEN("determinant(B) == 25")
+            {
+                REQUIRE(rtc::determinant(B) == 25_a);
+
+                AND_THEN("minor(A, 1, 0) == 25")
+                {
+                    REQUIRE(rtc::minor(A, 1, 0) == 25_a);
+                }
+            }
+        }
+    }
+}

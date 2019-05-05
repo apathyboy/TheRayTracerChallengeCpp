@@ -458,3 +458,228 @@ SCENARIO("Calculating the determinant of a 4x4 matrix", "[matrices]")
         }
     }
 }
+
+SCENARIO("Testing an invertible matrix for invertibility", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "|  6 |  4 |  4 |  4 |\n"
+        "|  5 |  5 |  7 |  6 |\n"
+        "|  4 | -9 |  3 | -7 |\n"
+        "|  9 |  1 |  7 | -6 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{6,  4, 4,  4,
+                                  5,  5, 7,  6,
+                                  4, -9, 3, -7,
+                                  9,  1, 7, -6};
+        // clang-format on
+
+        THEN("determinant(A) == -2120")
+        {
+            REQUIRE(rtc::determinant(A) == -2120_a);
+
+            AND_THEN("A is invertible") { REQUIRE(rtc::is_invertible(A)); }
+        }
+    }
+}
+
+SCENARIO("Testing a noninvertible matrix for invertibility", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "| -4 |  2 | -2 | -3 |\n"
+        "|  9 |  6 |  2 |  6 |\n"
+        "|  0 | -5 |  1 | -5 |\n"
+        "|  0 |  0 |  0 |  0 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{-4,  2, -2, -3,
+                                   9,  6,  2,  6,
+                                   0, -5,  1, -5,
+                                   0,  0,  0,  0};
+        // clang-format on
+
+        THEN("determinant(A) == ")
+        {
+            REQUIRE(rtc::determinant(A) == 0_a);
+
+            AND_THEN("A is not invertible")
+            {
+                REQUIRE_FALSE(rtc::is_invertible(A));
+            }
+        }
+    }
+}
+
+SCENARIO("Calculating the inverse of a matix", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "| -5 |  2 |  6 | -8 |\n"
+        "|  1 | -5 |  1 |  8 |\n"
+        "|  7 |  7 | -6 | -7 |\n"
+        "|  1 | -3 |  7 |  4 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{-5,  2,  6, -8,
+                                   1, -5,  1,  8,
+                                   7,  7, -6, -7,
+                                   1, -3,  7,  4};
+        // clang-format on
+
+        AND_GIVEN("B = inverse(A)")
+        {
+            auto B = rtc::inverse(A);
+
+            THEN("determinant(A) == 532")
+            {
+                REQUIRE(rtc::determinant(A) == 532_a);
+
+                AND_THEN("cofactor(A, 2, 3) == -160")
+                {
+                    REQUIRE(rtc::cofactor(A, 2, 3) == -160_a);
+
+                    AND_THEN("B[3,2] == -160/532")
+                    {
+                        REQUIRE(B[3][2] == -160.f / 532.f);
+                    }
+                }
+                AND_THEN("cofactor(A, 3, 2) == 105")
+                {
+                    REQUIRE(rtc::cofactor(A, 3, 2) == 105_a);
+
+                    AND_THEN("B[2,3] == 105/532")
+                    {
+                        REQUIRE(B[2][3] == 105.f / 532.f);
+                    }
+                }
+                AND_THEN(
+                    "B is the following 4x4 matrix:\n"
+                    "|  0.21805 |  0.45113 |  0.24060 | -0.04511 |\n"
+                    "| -0.80827 | -1.45677 | -0.44361 |  0.52068 |\n"
+                    "| -0.07895 | -0.22368 | -0.05263 |  0.19737 |\n"
+                    "| -0.52256 | -0.81391 | -0.30075 |  0.30639 |")
+                {
+                    // clang-format off
+                    auto C = rtc::matrix4x4_t{ 0.21805f,  0.45113f,  0.24060f, -0.04511f,
+                                              -0.80827f, -1.45677f, -0.44361f,  0.52068f,
+                                              -0.07895f, -0.22368f, -0.05263f,  0.19737f,
+                                              -0.52256f, -0.81391f, -0.30075f,  0.30639f};
+                    // clang-format on
+                    REQUIRE(B == C);
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Calculating the inverse of a second matix", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "|  8 | -5 |  9 |  2 |\n"
+        "|  7 |  5 |  6 |  1 |\n"
+        "| -6 |  0 |  9 |  6 |\n"
+        "| -3 |  0 | -9 | -4 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{ 8, -5,  9,  2,
+                                   7,  5,  6,  1,
+                                  -6,  0,  9,  6,
+                                  -3,  0, -9, -4};
+        // clang-format on
+
+        THEN(
+            "inverse(A) is the following 4x4 matrix:\n"
+            "| -0.15385 | -0.15385 | -0.28205 | -0.53846 |\n"
+            "| -0.07692 |  0.12308 |  0.02564 |  0.03077 |\n"
+            "|  0.35897 |  0.35897 |  0.43590 |  0.92308 |\n"
+            "| -0.69231 | -0.69231 | -0.76923 | -1.92308 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{-0.15385f, -0.15385f, -0.28205f, -0.53846f,
+                                      -0.07692f,  0.12308f,  0.02564f,  0.03077f,
+                                       0.35897f,  0.35897f,  0.43590f,  0.92308f,
+                                      -0.69231f, -0.69231f, -0.76923f, -1.92308f};
+            // clang-format on
+
+            REQUIRE(rtc::inverse(A) == B);
+        }
+    }
+}
+
+SCENARIO("Calculating the inverse of a third matix", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "|  9 |  3 |  0 |  9 |\n"
+        "| -5 | -2 | -6 | -3 |\n"
+        "| -4 |  9 |  6 |  4 |\n"
+        "| -7 |  6 |  6 |  2 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{ 9,  3,  0,  9,
+                                  -5, -2, -6, -3,
+                                  -4,  9,  6,  4,
+                                  -7,  6,  6,  2};
+        // clang-format on
+
+        THEN(
+            "inverse(A) is the following 4x4 matrix:\n"
+            "| -0.04074 | -0.07778 |  0.14444 | -0.22222 |\n"
+            "| -0.07778 |  0.03333 |  0.36667 | -0.33333 |\n"
+            "| -0.02901 | -0.14630 | -0.10926 |  0.12963 |\n"
+            "|  0.17778 |  0.06667 | -0.26667 |  0.33333 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{-0.04074f, -0.07778f,  0.14444f, -0.22222f,
+                                      -0.07778f,  0.03333f,  0.36667f, -0.33333f,
+                                      -0.02901f, -0.14630f, -0.10926f,  0.12963f,
+                                       0.17778f,  0.06667f, -0.26667f,  0.33333f};
+            // clang-format on
+
+            REQUIRE(rtc::inverse(A) == B);
+        }
+    }
+}
+
+SCENARIO("Multiplying a p roduct by its inverse", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "|  3 | -9 |  7 |  3 |\n"
+        "|  3 | -8 |  2 | -9 |\n"
+        "| -4 |  4 |  4 |  1 |\n"
+        "| -6 |  5 | -1 |  1 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{ 3, -9,  7,  3,
+                                   3, -8,  2, -9,
+                                  -4,  4,  4,  1,
+                                  -6,  5, -1,  1};
+        // clang-format on
+
+        AND_GIVEN(
+            "the following 4x4 matrix B:\n"
+            "|  8 |  2 |  2 |  2 |\n"
+            "|  3 | -1 |  7 |  0 |\n"
+            "|  7 |  0 |  5 |  4 |\n"
+            "|  6 | -2 |  0 |  5 |")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{8,  2,  2, 2,
+                                      3, -1,  7, 0,
+                                      7,  0,  5, 4,
+                                      6, -2,  0, 5};
+            // clang-format on
+
+            AND_GIVEN("C = A * B")
+            {
+                auto C = A * B;
+
+                THEN("C * inverse(B) == A") { REQUIRE(C * rtc::inverse(B) == A); }
+            }
+        }
+    }
+}

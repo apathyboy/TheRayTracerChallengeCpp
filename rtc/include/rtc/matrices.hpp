@@ -218,6 +218,31 @@ inline float minor(const MatrixT& a, int exclusion_row, int exclusion_col) noexc
     return rtc::determinant(rtc::submatrix(a, exclusion_row, exclusion_col));
 }
 
+inline bool is_invertible(const matrix4x4_t& a)
+{
+    return !rtc::approx(rtc::determinant(a), 0);
+}
+
+inline matrix4x4_t inverse(const matrix4x4_t& a)
+{
+    if (!rtc::is_invertible(a))
+        return a;
+
+    auto det = rtc::determinant(a);
+
+    matrix4x4_t tmp = {};
+
+    for (int row = 0; row < matrix4x4_t::row_count; ++row) {
+        for (int col = 0; col < matrix4x4_t::col_count; ++col) {
+            auto c = rtc::cofactor(a, row, col);
+
+            tmp[col][row] = c / det;
+        }
+    }
+
+    return tmp;
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

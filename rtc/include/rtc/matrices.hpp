@@ -146,6 +146,47 @@ MatrixT transpose(const MatrixT& a)
     return result;
 }
 
+inline float determinant(const matrix2x2_t& a)
+{
+    return a[0][0] * a[1][1] - a[0][1] * a[1][0];
+}
+
+template <typename FromMatrixT, typename ToMatrixT>
+ToMatrixT submatrix(const FromMatrixT& a, int exclusion_row, int exclusion_col)
+{
+    ToMatrixT result = {};
+
+    for (int r = 0, r1 = 0; r < FromMatrixT::row_count; ++r) {
+        if (r == exclusion_row)
+            continue;
+
+        for (int c = 0, c1 = 0; c < FromMatrixT::col_count; ++c) {
+            if (c == exclusion_col)
+                continue;
+
+            result[r1][c1] = a[r][c];
+
+            ++c1;
+        }
+
+        ++r1;
+    }
+
+    return result;
+}
+
+inline matrix2x2_t
+submatrix(const matrix3x3_t& a, int exclusion_row, int exclusion_col)
+{
+    return submatrix<matrix3x3_t, matrix2x2_t>(a, exclusion_row, exclusion_col);
+}
+
+inline matrix3x3_t
+submatrix(const matrix4x4_t& a, int exclusion_row, int exclusion_col)
+{
+    return submatrix<matrix4x4_t, matrix3x3_t>(a, exclusion_row, exclusion_col);
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

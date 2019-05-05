@@ -276,3 +276,64 @@ SCENARIO("Transposing the identity matrix", "[matrices]")
         THEN("A = identity_matrix") { REQUIRE(A == rtc::matrix4x4_t::identity()); }
     }
 }
+
+SCENARIO("Calculating the determinant of a 2x2 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 2x2 matrix A:\n"
+        "|  1 | 5 |\n"
+        "| -3 | 2 |")
+    {
+        auto A = rtc::matrix2x2_t{1, 5, -3, 2};
+
+        THEN("determinant(A) == 17") { REQUIRE(rtc::determinant(A) == 17_a); }
+    }
+}
+
+SCENARIO("A submatrix of a 3x3 matrix is a 2x2 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 3x3 matrix A:\n"
+        "|  1 | 5 |  0 |\n"
+        "| -3 | 2 |  7 |\n"
+        "|  0 | 6 | -3 |")
+    {
+        auto A = rtc::matrix3x3_t{1, 5, 0, -3, 2, 7, 0, 6, -3};
+
+        THEN(
+            "submatrix(A, 0, 2) is the following 2x2 matrix:\n"
+            "| -3 | 2 |\n"
+            "|  0 | 6 |\n")
+        {
+            REQUIRE(rtc::submatrix(A, 0, 2) == rtc::matrix2x2_t{-3, 2, 0, 6});
+        }
+    }
+}
+
+SCENARIO("A submatrix of a 4x4 matrix is a 3x3 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "| -6 |  1 |  1 |  6 |\n"
+        "| -8 |  5 |  8 |  6 |\n"
+        "| -1 |  0 |  8 |  2 |\n"
+        "| -7 |  1 | -1 |  1 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{-6, 1, 1, 6,
+                                  -8, 5, 8, 6,
+                                  -1, 0, 8, 2,
+                                  -7, 1, -1, 1};
+        // clang-format on
+
+        THEN(
+            "submatrix(A, 2, 1) is the following 3x3 matrix:\n"
+            "| -6 |  1 | 6 |\n"
+            "| -8 |  8 | 6 |\n"
+            "| -7 | -1 | 1 |")
+        {
+            REQUIRE(rtc::submatrix(A, 2, 1)
+                    == rtc::matrix3x3_t{-6, 1, 6, -8, 8, 6, -7, -1, 1});
+        }
+    }
+}

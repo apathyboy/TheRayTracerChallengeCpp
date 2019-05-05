@@ -364,3 +364,35 @@ SCENARIO("Calculating a minor of a 3x3 matrix", "[matrices]")
         }
     }
 }
+
+SCENARIO("Calculating a cofactor of a 3x3 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 3x3 matrix A:\n"
+        "|  3 |  5 |  0 |\n"
+        "|  2 | -1 | -7 |\n"
+        "|  6 | -1 |  5 |")
+    {
+        auto A = rtc::matrix3x3_t{3, 5, 0, 2, -1, -7, 6, -1, 5};
+
+        THEN("minor(A, 0, 0) == -12")
+        {
+            REQUIRE(rtc::minor(A, 0, 0) == -12_a);
+
+            AND_THEN("cofactor(A, 0, 0) == -12")
+            {
+                REQUIRE(rtc::cofactor(A, 0, 0) == -12_a);
+            }
+        }
+
+        THEN("minor(A, 1, 0) == 25")
+        {
+            REQUIRE(rtc::minor(A, 1, 0) == 25_a);
+
+            AND_THEN("cofactor(A, 1, 0) == -25")
+            {
+                REQUIRE(rtc::cofactor(A, 1, 0) == -25_a);
+            }
+        }
+    }
+}

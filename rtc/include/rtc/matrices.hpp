@@ -194,6 +194,18 @@ minor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
     return rtc::determinant(rtc::submatrix(a, exclusion_row, exclusion_col));
 }
 
+inline float
+cofactor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
+{
+    auto minor = rtc::minor(a, exclusion_row, exclusion_col);
+
+    if ((exclusion_row + exclusion_col) % 2 != 0) {
+        minor = -minor;
+    }
+
+    return minor;
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

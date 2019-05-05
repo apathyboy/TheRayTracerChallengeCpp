@@ -118,7 +118,7 @@ template <typename MatrixT>
 }
 
 template <typename MatrixT>
-MatrixT operator*(const MatrixT& a, const MatrixT& b) noexcept
+[[nodiscard]] MatrixT operator*(const MatrixT& a, const MatrixT& b) noexcept
 {
     MatrixT result = {};
 
@@ -133,7 +133,7 @@ MatrixT operator*(const MatrixT& a, const MatrixT& b) noexcept
 }
 
 template <typename MatrixT>
-MatrixT transpose(const MatrixT& a)
+[[nodiscard]] MatrixT transpose(const MatrixT& a) noexcept
 {
     MatrixT result = {};
 
@@ -146,13 +146,14 @@ MatrixT transpose(const MatrixT& a)
     return result;
 }
 
-inline float determinant(const matrix2x2_t& a)
+[[nodiscard]] inline float determinant(const matrix2x2_t& a) noexcept
 {
     return a[0][0] * a[1][1] - a[0][1] * a[1][0];
 }
 
 template <typename FromMatrixT, typename ToMatrixT>
-ToMatrixT submatrix(const FromMatrixT& a, int exclusion_row, int exclusion_col)
+[[nodiscard]] ToMatrixT
+submatrix(const FromMatrixT& a, int exclusion_row, int exclusion_col) noexcept
 {
     ToMatrixT result = {};
 
@@ -175,14 +176,14 @@ ToMatrixT submatrix(const FromMatrixT& a, int exclusion_row, int exclusion_col)
     return result;
 }
 
-inline matrix2x2_t
-submatrix(const matrix3x3_t& a, int exclusion_row, int exclusion_col)
+[[nodiscard]] inline matrix2x2_t
+submatrix(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
 {
     return submatrix<matrix3x3_t, matrix2x2_t>(a, exclusion_row, exclusion_col);
 }
 
-inline matrix3x3_t
-submatrix(const matrix4x4_t& a, int exclusion_row, int exclusion_col)
+[[nodiscard]] inline matrix3x3_t
+submatrix(const matrix4x4_t& a, int exclusion_row, int exclusion_col) noexcept
 {
     return submatrix<matrix4x4_t, matrix3x3_t>(a, exclusion_row, exclusion_col);
 }

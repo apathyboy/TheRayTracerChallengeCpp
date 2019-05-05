@@ -396,3 +396,65 @@ SCENARIO("Calculating a cofactor of a 3x3 matrix", "[matrices]")
         }
     }
 }
+
+SCENARIO("Calculating the determinant of a 3x3 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 3x3 matrix A:\n"
+        "|  1 |  2 |  6 |\n"
+        "| -5 |  8 | -4 |\n"
+        "|  2 |  6 |  4 |")
+    {
+        auto A = rtc::matrix3x3_t{1, 2, 6, -5, 8, -4, 2, 6, 4};
+
+        THEN("cofactor(A, 0, 0) == 56") { REQUIRE(rtc::cofactor(A, 0, 0) == 56_a); }
+        AND_THEN("cofactor(A, 0, 1) == 12")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 1) == 12_a);
+        }
+        AND_THEN("cofactor(A, 0, 2) == -46")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 2) == -46_a);
+        }
+        AND_THEN("determinant(A) == -196") { REQUIRE(determinant(A) == -196_a); }
+    }
+}
+
+SCENARIO("Calculating the determinant of a 4x4 matrix", "[matrices]")
+{
+    GIVEN(
+        "the following 4x4 matrix A:\n"
+        "| -2 | -8 |  3 |  5 |\n"
+        "| -3 |  1 |  7 |  3 |\n"
+        "|  1 |  2 | -9 |  6 |\n"
+        "| -6 |  7 |  7 | -9 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{-2, -8,  3,  5,
+                                  -3,  1,  7,  3,
+                                   1,  2, -9,  6,
+                                  -6,  7,  7, -9};
+        // clang-format on
+
+        THEN("cofactor(A, 0, 0,) == 690")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 0) == 690_a);
+        }
+        AND_THEN("cofactor(A, 0, 1) == 447")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 1) == 447_a);
+        }
+        AND_THEN("cofactor(A, 0, 2) == 210")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 2) == 210_a);
+        }
+        AND_THEN("cofactor(A, 0, 3) == 51")
+        {
+            REQUIRE(rtc::cofactor(A, 0, 3) == 51_a);
+        }
+        AND_THEN("determinant(A) == -4071")
+        {
+            REQUIRE(rtc::determinant(A) == -4071_a);
+        }
+    }
+}

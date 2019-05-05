@@ -188,14 +188,8 @@ submatrix(const matrix4x4_t& a, int exclusion_row, int exclusion_col) noexcept
     return submatrix<matrix4x4_t, matrix3x3_t>(a, exclusion_row, exclusion_col);
 }
 
-inline float
-minor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
-{
-    return rtc::determinant(rtc::submatrix(a, exclusion_row, exclusion_col));
-}
-
-inline float
-cofactor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
+template <typename MatrixT>
+float cofactor(const MatrixT& a, int exclusion_row, int exclusion_col) noexcept
 {
     auto minor = rtc::minor(a, exclusion_row, exclusion_col);
 
@@ -204,6 +198,24 @@ cofactor(const matrix3x3_t& a, int exclusion_row, int exclusion_col) noexcept
     }
 
     return minor;
+}
+
+template <typename MatrixT>
+[[nodiscard]] float determinant(const MatrixT& a) noexcept
+{
+    float det = 0;
+
+    for (int col = 0; col < MatrixT::col_count; ++col) {
+        det = det + a[0][col] * rtc::cofactor(a, 0, col);
+    }
+
+    return det;
+}
+
+template <typename MatrixT>
+inline float minor(const MatrixT& a, int exclusion_row, int exclusion_col) noexcept
+{
+    return rtc::determinant(rtc::submatrix(a, exclusion_row, exclusion_col));
 }
 
 } // namespace rtc

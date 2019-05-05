@@ -132,6 +132,20 @@ MatrixT operator*(const MatrixT& a, const MatrixT& b) noexcept
     return result;
 }
 
+template <typename MatrixT>
+MatrixT transpose(const MatrixT& a)
+{
+    MatrixT result = {};
+
+    for (int row = 0; row < MatrixT::row_count; ++row) {
+        for (int col = 0; col < MatrixT::col_count; ++col) {
+            result[col][row] = a[row][col];
+        }
+    }
+
+    return result;
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

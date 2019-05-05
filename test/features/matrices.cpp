@@ -232,3 +232,47 @@ SCENARIO("Multiplying a matrix by the identity matrix", "[matrices]")
         }
     }
 }
+
+SCENARIO("Transposing a matrix", "[matrices]")
+{
+    GIVEN(
+        "the following matrix A:\n"
+        "| 0 | 9 | 3 | 0 |\n"
+        "| 9 | 8 | 0 | 8 |\n"
+        "| 1 | 8 | 5 | 3 |\n"
+        "| 0 | 0 | 5 | 8 |\n")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{0, 9, 3, 0,
+                                  9, 8, 0, 8,
+                                  1, 8, 5, 3,
+                                  0, 0, 5, 8};
+        // clang-format on
+
+        THEN(
+            "transpose(A) is the following matrix:\n"
+            "| 0 | 9 | 1 | 0 |\n"
+            "| 9 | 8 | 0 | 8 |\n"
+            "| 1 | 8 | 5 | 3 |\n"
+            "| 0 | 0 | 5 | 8 |\n")
+        {
+            // clang-format off
+            auto B = rtc::matrix4x4_t{0, 9, 1, 0,
+                                      9, 8, 8, 0,
+                                      3, 0, 5, 5,
+                                      0, 8, 3, 8};
+            // clang-format on
+
+            REQUIRE(rtc::transpose(A) == B);
+        }
+    }
+}
+
+SCENARIO("Transposing the identity matrix", "[matrices]")
+{
+    GIVEN("A = transpose(identity_matrix)")
+    {
+        auto A = rtc::transpose(rtc::matrix4x4_t::identity());
+        THEN("A = identity_matrix") { REQUIRE(A == rtc::matrix4x4_t::identity()); }
+    }
+}

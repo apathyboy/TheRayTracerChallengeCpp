@@ -181,3 +181,31 @@ SCENARIO("Multiplying two matrices", "[matrices]")
         }
     }
 }
+
+SCENARIO("A matrix multiplied by a tuple", "[matrices]")
+{
+    GIVEN(
+        "the following matrix A:\n"
+        "| 1 | 2 | 3 | 4 |\n"
+        "| 2 | 4 | 4 | 2 |\n"
+        "| 8 | 6 | 4 | 1 |\n"
+        "| 0 | 0 | 0 | 1 ")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{1, 2, 3, 4,
+                                  2, 4, 4, 2,
+                                  8, 6, 4, 1,
+                                  0, 0, 0, 1};
+        // clang-format on
+
+        AND_GIVEN("b = tuple(1, 2, 3, 1)")
+        {
+            auto b = rtc::tuple4_t{1, 2, 3, 1};
+
+            THEN("A * b  = tuple(18, 24, 33, 1)")
+            {
+                REQUIRE(A * b == rtc::tuple4_t{18, 24, 33, 1});
+            }
+        }
+    }
+}

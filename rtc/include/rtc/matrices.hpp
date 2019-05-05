@@ -81,6 +81,17 @@ public:
 
     const tuple4_t& operator[](int index) const { return rows_[index]; }
     tuple4_t&       operator[](int index) { return rows_[index]; }
+
+    friend tuple4_t operator*(const matrix4x4_t& a, const tuple4_t& b)
+    {
+        tuple4_t result = {};
+
+        for (int row = 0; row < row_count; ++row) {
+            result[row] = rtc::dot(a.rows_[row], b);
+        }
+
+        return result;
+    }
 };
 
 template <typename MatrixT>

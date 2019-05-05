@@ -209,3 +209,26 @@ SCENARIO("A matrix multiplied by a tuple", "[matrices]")
         }
     }
 }
+
+SCENARIO("Multiplying a matrix by the identity matrix", "[matrices]")
+{
+    GIVEN(
+        "the following matrix A:\n"
+        "| 0 | 1 |  2 |  4 |\n"
+        "| 1 | 2 |  4 |  8 |\n"
+        "| 2 | 4 |  8 | 16 |\n"
+        "| 4 | 8 | 16 | 32 |")
+    {
+        // clang-format off
+        auto A = rtc::matrix4x4_t{1, 2, 3, 4,
+                                  1, 2, 4, 8,
+                                  2, 4, 8, 16,
+                                  4, 8, 16, 32};
+        // clang-format on
+
+        THEN("A * identity_matrix == A")
+        {
+            REQUIRE(A * rtc::matrix4x4_t::identity() == A);
+        }
+    }
+}

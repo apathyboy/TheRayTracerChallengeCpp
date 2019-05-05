@@ -79,6 +79,11 @@ public:
     {}
     // clang-format on
 
+    static const matrix4x4_t identity() noexcept
+    {
+        return matrix4x4_t{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+    }
+
     const tuple4_t& operator[](int index) const { return rows_[index]; }
     tuple4_t&       operator[](int index) { return rows_[index]; }
 

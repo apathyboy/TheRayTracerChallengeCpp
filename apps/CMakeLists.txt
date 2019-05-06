@@ -32,3 +32,20 @@ if(WIN32)
         "-wd4201"        # disable warning for nameless struct/union
         "-permissive-")  # enable iso c++ conformance mode
 endif()
+
+# Chapter 4
+
+add_executable(chapter4)
+
+target_sources(chapter4
+    PRIVATE "chapter4.cpp")
+
+target_link_libraries(chapter4 PRIVATE rtc::rtc)
+
+if(WIN32)
+    target_compile_options(chapter4 PRIVATE
+        "-W4"            # set a high warning level
+        "-WX"            # treat warnings as errors
+        "-wd4201"        # disable warning for nameless struct/union
+        "-permissive-")  # enable iso c++ conformance mode
+endif()

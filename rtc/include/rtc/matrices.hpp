@@ -243,6 +243,16 @@ inline matrix4x4_t inverse(const matrix4x4_t& a)
     return tmp;
 }
 
+inline matrix4x4_t translation(float x, float y, float z)
+{
+    // clang-format off
+    return {1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
+            0, 0, 0, 1};
+    // clang-format on
+}
+
 } // namespace rtc
 
 #endif // RTC_MATRICES_HPP_

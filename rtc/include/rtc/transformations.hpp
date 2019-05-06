@@ -26,6 +26,36 @@ namespace rtc {
     // clang-format on
 }
 
+[[nodiscard]] inline matrix4x4_t rotation_x(float radians)
+{
+    // clang-format off
+    return {1, 0, 0, 0,
+            0, std::cosf(radians), -std::sinf(radians), 0,
+            0, std::sinf(radians), std::cosf(radians), 0,
+            0, 0, 0, 1};
+    // clang-format on
+}
+
+[[nodiscard]] inline matrix4x4_t rotation_y(float radians)
+{
+    // clang-format off
+    return {std::cosf(radians), 0, std::sinf(radians), 0,
+            0, 1, 0, 0,
+            -std::sinf(radians), 0, std::cosf(radians), 0,
+            0, 0, 0, 1};
+    // clang-format on
+}
+
+[[nodiscard]] inline matrix4x4_t rotation_z(float radians)
+{
+    // clang-format off
+    return {std::cosf(radians), -std::sinf(radians), 0, 0,
+            std::sinf(radians), std::cosf(radians), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1};
+    // clang-format on
+}
+
 } // namespace rtc
 
 #endif // RTC_TRANSFORMATIONS_HPP_

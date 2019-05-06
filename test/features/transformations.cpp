@@ -128,9 +128,123 @@ SCENARIO("Reflection is scaling by a negative value", "[transformations]")
         {
             auto p = rtc::point(2, 3, 4);
 
-            THEN("transform * p = point(-2, 3, 4)")
+            THEN("transform * p == point(-2, 3, 4)")
             {
                 REQUIRE(transform * p == rtc::point(-2, 3, 4));
+            }
+        }
+    }
+}
+
+SCENARIO("Rotating a point around the x axis", "[transformations]")
+{
+    GIVEN("p = point(0, 1, 0)")
+    {
+        auto p = rtc::point(0, 1, 0);
+
+        AND_GIVEN("half_quarter = rotation_x(PI / 4)")
+        {
+            auto half_quarter = rtc::rotation_x(rtc::PI / 4);
+
+            AND_GIVEN("full_quarter = rotation_x(PI / 2)")
+            {
+                auto full_quarter = rtc::rotation_x(rtc::PI / 2);
+
+                THEN("half_quarter * p == point(0, sqrt(2)/2, sqrt(2)/2")
+                {
+                    REQUIRE(half_quarter * p
+                            == rtc::point(0, std::sqrtf(2) / 2, std::sqrtf(2) / 2));
+
+                    AND_THEN("full_quarter * p == point(0, 0, 1)")
+                    {
+                        REQUIRE(full_quarter * p == rtc::point(0, 0, 1));
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The inverse of x-rotation rotates in opposite direction",
+         "[transformations]")
+{
+    GIVEN("p = point(0, 1, 0)")
+    {
+        auto p = rtc::point(0, 1, 0);
+
+        AND_GIVEN("half_quarter = rotation_x(PI / 4)")
+        {
+            auto half_quarter = rtc::rotation_x(rtc::PI / 4);
+
+            AND_GIVEN("inv = inverse(half_quarter)")
+            {
+                auto inv = rtc::inverse(half_quarter);
+
+                THEN("inv * p == point(0, sqrt(2)/2, sqrt(2)/2)")
+                {
+                    REQUIRE(
+                        inv * p
+                        == rtc::point(0, std::sqrtf(2) / 2, -std::sqrtf(2) / 2));
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Rotating a point around the y axis", "[transformations]")
+{
+    GIVEN("p = point(0, 0, 1)")
+    {
+        auto p = rtc::point(0, 0, 1);
+
+        AND_GIVEN("half_quarter = rotation_y(PI / 4)")
+        {
+            auto half_quarter = rtc::rotation_y(rtc::PI / 4);
+
+            AND_GIVEN("full_quarter = rotation_y(PI / 2)")
+            {
+                auto full_quarter = rtc::rotation_y(rtc::PI / 2);
+
+                THEN("half_quarter * p == point(sqrt(2)/2, 0, sqrt(2)/2)")
+                {
+                    REQUIRE(half_quarter * p
+                            == rtc::point(std::sqrtf(2) / 2, 0, std::sqrtf(2) / 2));
+
+                    AND_THEN("full_quarter * p == point(1, 0, 0)")
+                    {
+                        REQUIRE(full_quarter * p == rtc::point(1, 0, 0));
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Rotating a point around the z axis", "[transformations]")
+{
+    GIVEN("p = point(0, 1, 0)")
+    {
+        auto p = rtc::point(0, 1, 0);
+
+        AND_GIVEN("half_quarter = rotation_z(PI / 4)")
+        {
+            auto half_quarter = rtc::rotation_z(rtc::PI / 4);
+
+            AND_GIVEN("full_quarter = rotation_z(PI / 2)")
+            {
+                auto full_quarter = rtc::rotation_z(rtc::PI / 2);
+
+                THEN("half_quarter * p == point(-sqrt(2)/2, sqrt(2)/2, 0)")
+                {
+                    REQUIRE(
+                        half_quarter * p
+                        == rtc::point(-std::sqrtf(2) / 2, std::sqrtf(2) / 2, 0));
+
+                    AND_THEN("full_quarter * p == point(-1, 0, 0)")
+                    {
+                        REQUIRE(full_quarter * p == rtc::point(-1, 0, 0));
+                    }
+                }
             }
         }
     }

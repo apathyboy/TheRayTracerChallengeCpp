@@ -249,3 +249,111 @@ SCENARIO("Rotating a point around the z axis", "[transformations]")
         }
     }
 }
+
+SCENARIO("Shearing moves x in proportion to y", "[transformations]")
+{
+    GIVEN("transform = shearing(1, 0, 0, 0, 0, 0)")
+    {
+        auto transform = rtc::shearing(1, 0, 0, 0, 0, 0);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(5, 3, 4)")
+            {
+                REQUIRE(transform * p == rtc::point(5, 3, 4));
+            }
+        }
+    }
+}
+
+SCENARIO("Shearing moves x in proportion to z", "[transformations]")
+{
+    GIVEN("transform = shearing(0, 1, 0, 0, 0, 0)")
+    {
+        auto transform = rtc::shearing(0, 1, 0, 0, 0, 0);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(6, 3, 4)")
+            {
+                REQUIRE(transform * p == rtc::point(6, 3, 4));
+            }
+        }
+    }
+}
+
+SCENARIO("Shearing moves y in proportion to x", "[transformations]")
+{
+    GIVEN("transform = shearing(0, 0, 1, 0, 0, 0)")
+    {
+        auto transform = rtc::shearing(0, 0, 1, 0, 0, 0);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(2, 5, 4)")
+            {
+                REQUIRE(transform * p == rtc::point(2, 5, 4));
+            }
+        }
+    }
+}
+
+SCENARIO("Shearing moves y in proportion to z", "[transformations]")
+{
+    GIVEN("transform = shearing(0, 0, 0, 1, 0, 0)")
+    {
+        auto transform = rtc::shearing(0, 0, 0, 1, 0, 0);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(2, 7, 4)")
+            {
+                REQUIRE(transform * p == rtc::point(2, 7, 4));
+            }
+        }
+    }
+}
+
+SCENARIO("Shearing moves z in proportion to x", "[transformations]")
+{
+    GIVEN("transform = shearing(0, 0, 0, 0, 1, 0)")
+    {
+        auto transform = rtc::shearing(0, 0, 0, 0, 1, 0);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(2, 3, 6)")
+            {
+                REQUIRE(transform * p == rtc::point(2, 3, 6));
+            }
+        }
+    }
+}
+
+SCENARIO("Shearing moves z in proportion to y", "[transformations]")
+{
+    GIVEN("transform = shearing(0, 0, 0, 0, 0, 1)")
+    {
+        auto transform = rtc::shearing(0, 0, 0, 0, 0, 1);
+
+        AND_GIVEN("p = point(2, 3, 4)")
+        {
+            auto p = rtc::point(2, 3, 4);
+
+            THEN("transform * p == point(2, 3, 7)")
+            {
+                REQUIRE(transform * p == rtc::point(2, 3, 7));
+            }
+        }
+    }
+}

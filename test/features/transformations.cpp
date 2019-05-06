@@ -357,3 +357,90 @@ SCENARIO("Shearing moves z in proportion to y", "[transformations]")
         }
     }
 }
+
+SCENARIO("Individual transformation are applied in sequence", "[transformations]")
+{
+    GIVEN("p = point(1, 0, 1)")
+    {
+        auto p = rtc::point(1, 0, 1);
+
+        AND_GIVEN("A = rotation_x(PI / 2)")
+        {
+            auto A = rtc::rotation_x(rtc::PI / 2);
+
+            AND_GIVEN("B = scaling(5, 5, 5)")
+            {
+                auto B = rtc::scaling(5, 5, 5);
+
+                AND_GIVEN("C = translation(10, 5, 7)")
+                {
+                    auto C = rtc::translation(10, 5, 7);
+
+                    WHEN("p2 = A * p")
+                    {
+                        auto p2 = A * p;
+
+                        THEN("p2 == point(1, -1, 0)")
+                        {
+                            REQUIRE(p2 == rtc::point(1, -1, 0));
+                        }
+
+                        AND_WHEN("p3 = B * p2")
+                        {
+                            auto p3 = B * p2;
+
+                            THEN("p3 == point(5, -5, 0)")
+                            {
+                                REQUIRE(p3 == rtc::point(5, -5, 0));
+                            }
+
+                            AND_WHEN("p4 = C * p3")
+                            {
+                                auto p4 = C * p3;
+
+                                THEN("p4 == point(15, 0, 7)")
+                                {
+                                    REQUIRE(p4 == rtc::point(15, 0, 7));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Chained transformations must be applied in reverse order",
+         "[transformations]")
+{
+    GIVEN("p = point(1, 0, 1)")
+    {
+        auto p = rtc::point(1, 0, 1);
+
+        AND_GIVEN("A = rotation_x(PI / 2)")
+        {
+            auto A = rtc::rotation_x(rtc::PI / 2);
+
+            AND_GIVEN("B = scaling(5, 5, 5)")
+            {
+                auto B = rtc::scaling(5, 5, 5);
+
+                AND_GIVEN("C = translation(10, 5, 7)")
+                {
+                    auto C = rtc::translation(10, 5, 7);
+
+                    WHEN("T = C * B * A")
+                    {
+                        auto T = C * B * A;
+
+                        THEN("T * p == point(15, 0, 7)")
+                        {
+                            REQUIRE(T * p == rtc::point(15, 0, 7));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

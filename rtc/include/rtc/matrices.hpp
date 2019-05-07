@@ -29,6 +29,22 @@ public:
 
     const tuple4_t& operator[](int index) const { return rows_[index]; }
     tuple4_t&       operator[](int index) { return rows_[index]; }
+
+    friend bool operator==(const matrix2x2_t& a, const matrix2x2_t& b) noexcept
+    {
+        bool equal = true;
+
+        for (int i = 0; i < row_count && equal; ++i) {
+            equal = a[i] == b[i];
+        }
+
+        return equal;
+    }
+
+    friend bool operator!=(const matrix2x2_t& a, const matrix2x2_t& b) noexcept
+    {
+        return !(a == b);
+    }
 };
 
 class matrix3x3_t {
@@ -54,6 +70,22 @@ public:
 
     const tuple4_t& operator[](int index) const { return rows_[index]; }
     tuple4_t&       operator[](int index) { return rows_[index]; }
+
+    friend bool operator==(const matrix3x3_t& a, const matrix3x3_t& b) noexcept
+    {
+        bool equal = true;
+
+        for (int i = 0; i < row_count && equal; ++i) {
+            equal = a[i] == b[i];
+        }
+
+        return equal;
+    }
+
+    friend bool operator!=(const matrix3x3_t& a, const matrix3x3_t& b) noexcept
+    {
+        return !(a == b);
+    }
 };
 
 class matrix4x4_t {
@@ -87,6 +119,37 @@ public:
     const tuple4_t& operator[](int index) const { return rows_[index]; }
     tuple4_t&       operator[](int index) { return rows_[index]; }
 
+    friend bool operator==(const matrix4x4_t& a, const matrix4x4_t& b) noexcept
+    {
+        bool equal = true;
+
+        for (int i = 0; i < row_count && equal; ++i) {
+            equal = a[i] == b[i];
+        }
+
+        return equal;
+    }
+
+    friend bool operator!=(const matrix4x4_t& a, const matrix4x4_t& b) noexcept
+    {
+        return !(a == b);
+    }
+
+    friend matrix4x4_t operator*(const matrix4x4_t& a,
+                                 const matrix4x4_t& b) noexcept
+    {
+        matrix4x4_t result = {};
+
+        for (int row = 0; row < row_count; ++row) {
+            for (int col = 0; col < col_count; ++col) {
+                result[row][col] = a[row][0] * b[0][col] + a[row][1] * b[1][col]
+                                   + a[row][2] * b[2][col] + a[row][3] * b[3][col];
+            }
+        }
+
+        return result;
+    }
+
     friend tuple4_t operator*(const matrix4x4_t& a, const tuple4_t& b)
     {
         tuple4_t result = {};
@@ -98,39 +161,6 @@ public:
         return result;
     }
 };
-
-template <typename MatrixT>
-[[nodiscard]] bool operator==(const MatrixT& a, const MatrixT& b) noexcept
-{
-    bool equal = true;
-
-    for (int i = 0; i < MatrixT::row_count && equal; ++i) {
-        equal = a[i] == b[i];
-    }
-
-    return equal;
-}
-
-template <typename MatrixT>
-[[nodiscard]] bool operator!=(const MatrixT& a, const MatrixT& b) noexcept
-{
-    return !(a == b);
-}
-
-template <typename MatrixT>
-[[nodiscard]] MatrixT operator*(const MatrixT& a, const MatrixT& b) noexcept
-{
-    MatrixT result = {};
-
-    for (int row = 0; row < MatrixT::row_count; ++row) {
-        for (int col = 0; col < MatrixT::col_count; ++col) {
-            result[row][col] = a[row][0] * b[0][col] + a[row][1] * b[1][col]
-                               + a[row][2] * b[2][col] + a[row][3] * b[3][col];
-        }
-    }
-
-    return result;
-}
 
 template <typename MatrixT>
 [[nodiscard]] MatrixT transpose(const MatrixT& a) noexcept

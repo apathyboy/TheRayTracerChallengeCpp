@@ -2,6 +2,7 @@
 #ifndef RTC_SPHERE_HPP_
 #define RTC_SPHERE_HPP_
 
+#include "matrices.hpp"
 #include "ray.hpp"
 
 #include <cstdint>
@@ -10,11 +11,12 @@
 namespace rtc {
 
 struct sphere_t {
-    uint32_t id;
+    uint32_t    id;
+    matrix4x4_t transform;
 
     friend bool operator==(const sphere_t& l, const sphere_t& r) noexcept
     {
-        return l.id == r.id;
+        return l.id == r.id && l.transform == r.transform;
     }
 };
 
@@ -22,7 +24,7 @@ struct sphere_t {
 {
     static uint32_t next_id = 0;
 
-    return sphere_t{next_id++};
+    return sphere_t{next_id++, matrix4x4_t::identity()};
 }
 
 } // namespace rtc

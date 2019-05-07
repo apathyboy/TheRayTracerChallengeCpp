@@ -26,10 +26,11 @@ using intersections_t = std::vector<intersection_t>;
 [[nodiscard]] inline intersections_t intersect(const sphere_t& sphere,
                                                const ray_t&    ray)
 {
-    auto sphere_to_ray = ray.origin - rtc::point(0, 0, 0);
+    auto ray2          = rtc::transform(ray, rtc::inverse(sphere.transform));
+    auto sphere_to_ray = ray2.origin - rtc::point(0, 0, 0);
 
-    auto a = rtc::dot(ray.direction, ray.direction);
-    auto b = 2 * rtc::dot(ray.direction, sphere_to_ray);
+    auto a = rtc::dot(ray2.direction, ray2.direction);
+    auto b = 2 * rtc::dot(ray2.direction, sphere_to_ray);
     auto c = rtc::dot(sphere_to_ray, sphere_to_ray) - 1;
 
     auto discriminant = (b * b) - (4 * a * c);

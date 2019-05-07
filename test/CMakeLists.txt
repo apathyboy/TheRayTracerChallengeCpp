@@ -5,6 +5,7 @@ target_sources(rtc-tests
     PRIVATE "main.cpp"
 
             "features/canvas.cpp"
+            "features/intersections.cpp"
             "features/math.cpp"
             "features/matrices.cpp"
             "features/rays.cpp"

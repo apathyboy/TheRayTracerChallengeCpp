@@ -1,6 +1,7 @@
 
 #include <rtc/ray.hpp>
 #include <rtc/sphere.hpp>
+#include <rtc/intersections.hpp>
 
 #include <catch2/catch.hpp>
 
@@ -24,8 +25,8 @@ SCENARIO("A ray intersects a sphere at two points", "[spheres]")
                 {
                     REQUIRE(xs.size() == 2);
 
-                    AND_THEN("xs[0] == 4.0") { REQUIRE(xs[0] == 4_a); }
-                    AND_THEN("xs[1] == 6.0") { REQUIRE(xs[1] == 6_a); }
+                    AND_THEN("xs[0] == 4.0") { REQUIRE(xs[0].t == 4_a); }
+                    AND_THEN("xs[1] == 6.0") { REQUIRE(xs[1].t == 6_a); }
                 }
             }
         }
@@ -50,8 +51,8 @@ SCENARIO("A ray intersects a sphere at a tangent", "[spheres]")
                 {
                     REQUIRE(xs.size() == 2);
 
-                    AND_THEN("xs[0] == 5.0") { REQUIRE(xs[0] == 5_a); }
-                    AND_THEN("xs[1] == 5.0") { REQUIRE(xs[1] == 5_a); }
+                    AND_THEN("xs[0] == 5.0") { REQUIRE(xs[0].t == 5_a); }
+                    AND_THEN("xs[1] == 5.0") { REQUIRE(xs[1].t == 5_a); }
                 }
             }
         }
@@ -96,8 +97,8 @@ SCENARIO("A ray originates inside a sphere", "[spheres]")
                 {
                     REQUIRE(xs.size() == 2);
 
-                    AND_THEN("xs[0] == -1.0") { REQUIRE(xs[0] == -1_a); }
-                    AND_THEN("xs[1] == 1.0") { REQUIRE(xs[1] == 1_a); }
+                    AND_THEN("xs[0] == -1.0") { REQUIRE(xs[0].t == -1_a); }
+                    AND_THEN("xs[1] == 1.0") { REQUIRE(xs[1].t == 1_a); }
                 }
             }
         }
@@ -122,8 +123,8 @@ SCENARIO("A sphere is behind a ray", "[spheres]")
                 {
                     REQUIRE(xs.size() == 2);
 
-                    AND_THEN("xs[0] == -6.0") { REQUIRE(xs[0] == -6_a); }
-                    AND_THEN("xs[1] == -4.0") { REQUIRE(xs[1] == -4_a); }
+                    AND_THEN("xs[0] == -6.0") { REQUIRE(xs[0].t == -6_a); }
+                    AND_THEN("xs[1] == -4.0") { REQUIRE(xs[1].t == -4_a); }
                 }
             }
         }

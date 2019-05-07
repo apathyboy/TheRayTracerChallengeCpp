@@ -7,9 +7,10 @@ target_sources(rtc-tests
             "features/canvas.cpp"
             "features/math.cpp"
             "features/matrices.cpp"
+            "features/rays.cpp"
+            "features/spheres.cpp"
             "features/transformations.cpp"
-            "features/tuples.cpp"
-            )
+            "features/tuples.cpp")
 
 target_link_libraries(rtc-tests PRIVATE Catch2::Catch2 rtc::rtc)
 

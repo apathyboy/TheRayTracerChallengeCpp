@@ -4,6 +4,8 @@
 
 #include "sphere.hpp"
 
+#include <algorithm>
+#include <optional>
 #include <vector>
 
 namespace rtc {
@@ -11,6 +13,12 @@ namespace rtc {
 struct intersection_t {
     float    t;
     sphere_t object;
+
+    friend bool operator==(const intersection_t& l,
+                           const intersection_t& r) noexcept
+    {
+        return l.t == r.t && l.object == r.object;
+    }
 };
 
 using intersections_t = std::vector<intersection_t>;
@@ -37,6 +45,28 @@ using intersections_t = std::vector<intersection_t>;
     }
 
     return intersections;
+}
+
+[[nodiscard]] inline std::optional<intersection_t>
+hit(intersections_t intersections)
+{
+    std::sort(intersections.begin(),
+              intersections.end(),
+              [](const auto& l, const auto& r) { return l.t < r.t; });
+
+    auto const_iter = std::upper_bound(
+        intersections.begin(),
+        intersections.end(),
+        0,
+        [](const auto& val, const auto& element) { return element.t > val; });
+
+    std::optional<intersection_t> intersection;
+
+    if (const_iter != intersections.end()) {
+        intersection = *const_iter;
+    }
+
+    return intersection;
 }
 
 } // namespace rtc

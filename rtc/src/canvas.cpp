@@ -21,10 +21,14 @@ rtc::bitmap_t rtc::canvas_to_bmp(const rtc::canvas_t& canvas)
         for (uint32_t x = 0; x < canvas.width(); ++x) {
             auto pixel = canvas.pixel_at(x, y);
 
-            for (auto e : pixel.elements) {
-                bitmap.data[pixel_offset++] = static_cast<uint8_t>(
-                    std::clamp(std::roundf(255.f * e), 0.f, 255.f));
-            }
+            bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                std::clamp(std::roundf(255.f * pixel.blue), 0.f, 255.f));
+            bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                std::clamp(std::roundf(255.f * pixel.green), 0.f, 255.f));
+            bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                std::clamp(std::roundf(255.f * pixel.red), 0.f, 255.f));
+            bitmap.data[pixel_offset++] = static_cast<uint8_t>(
+                std::clamp(std::roundf(255.f * pixel.alpha), 0.f, 255.f));
         }
     }
     return bitmap;

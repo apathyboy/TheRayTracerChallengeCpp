@@ -7,6 +7,7 @@ target_sources(rtc-tests
             "features/canvas.cpp"
             "features/intersections.cpp"
             "features/lights.cpp"
+            "features/materials.cpp"
             "features/math.cpp"
             "features/matrices.cpp"
             "features/rays.cpp"

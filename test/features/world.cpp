@@ -5,6 +5,8 @@
 
 #include <catch2/catch.hpp>
 
+using namespace Catch::literals;
+
 SCENARIO("Creating a world", "[world]")
 {
     GIVEN("w = world()")
@@ -57,6 +59,34 @@ SCENARIO("The default world", "[world]")
                             REQUIRE(rtc::contains(w.objects, s2));
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Intersect a world with a ray", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+        {
+            auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+            WHEN("xs = intersect_world(w, r)")
+            {
+                auto xs = rtc::intersect(w, r);
+
+                THEN("xs.count == 4")
+                {
+                    REQUIRE(xs.size() == 4);
+
+                    AND_THEN("xs[0].t == 4") { REQUIRE(xs[0].t == 4_a); }
+                    AND_THEN("xs[1].t == 4.5") { REQUIRE(xs[1].t == 4.5_a); }
+                    AND_THEN("xs[2].t == 5.5") { REQUIRE(xs[2].t == 5.5_a); }
+                    AND_THEN("xs[3].t == 6") { REQUIRE(xs[3].t == 6_a); }
                 }
             }
         }

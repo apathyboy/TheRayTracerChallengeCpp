@@ -2,6 +2,7 @@
 #ifndef RTC_WORLD_HPP_
 #define RTC_WORLD_HPP_
 
+#include "intersections.hpp"
 #include "lights.hpp"
 #include "sphere.hpp"
 
@@ -34,6 +35,24 @@ struct world_t {
     world.objects.push_back(s2);
 
     return world;
+}
+
+[[nodiscard]] inline intersections_t intersect(const world_t& world,
+                                               const ray_t&   ray)
+{
+    intersections_t intersections;
+
+    for (const auto& obj : world.objects) {
+        auto tmp = rtc::intersect(obj, ray);
+        intersections.reserve(intersections.size() + tmp.size());
+        intersections.insert(intersections.end(), tmp.begin(), tmp.end());
+    }
+
+    std::sort(intersections.begin(),
+              intersections.end(),
+              [](const auto& a, const auto& b) noexcept { return a.t < b.t; });
+
+    return intersections;
 }
 
 } // namespace rtc

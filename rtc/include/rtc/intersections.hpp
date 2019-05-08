@@ -96,7 +96,7 @@ prepare_computations(const intersection_t& intersection, const ray_t& ray)
         comps.normalv = -comps.normalv;
     }
 
-    comps.over_point = comps.point + comps.normalv * rtc::EPSILON;
+    comps.over_point = comps.point + comps.normalv * 0.01f;
 
     return comps;
 }

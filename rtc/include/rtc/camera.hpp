@@ -83,7 +83,6 @@ private:
 
 [[nodiscard]] inline canvas_t render(const camera_t& camera, const world_t& world)
 {
-    (world);
     auto image = rtc::canvas_t{camera.width(), camera.height()};
 
     for (uint32_t y = 0; y < camera.height(); ++y) {

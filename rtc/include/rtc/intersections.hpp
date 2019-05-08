@@ -76,6 +76,7 @@ struct computations_t {
     tuple4_t point;
     tuple4_t eyev;
     tuple4_t normalv;
+    bool     inside;
 };
 
 [[nodiscard]] inline computations_t
@@ -88,6 +89,11 @@ prepare_computations(const intersection_t& intersection, const ray_t& ray)
     comps.point   = rtc::position(ray, comps.t);
     comps.eyev    = -ray.direction;
     comps.normalv = rtc::normal_at(comps.object, comps.point);
+
+    if (rtc::dot(comps.normalv, comps.eyev) < 0) {
+        comps.inside  = true;
+        comps.normalv = -comps.normalv;
+    }
 
     return comps;
 }

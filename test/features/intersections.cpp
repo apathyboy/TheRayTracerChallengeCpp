@@ -254,3 +254,66 @@ SCENARIO("Precomputing the state of an intersection", "[intersections]")
         }
     }
 }
+
+SCENARIO("The hit, when intersection occurs on the outside", "[intersections]")
+{
+    GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+    {
+        auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+        AND_GIVEN("shape = sphere()")
+        {
+            auto shape = rtc::sphere();
+
+            AND_GIVEN("i = intersection(4, shape)")
+            {
+                auto i = rtc::intersection_t{4, shape};
+
+                WHEN("comps = prepare_compuations(i, r")
+                {
+                    auto comps = rtc::prepare_computations(i, r);
+
+                    THEN("comps.inside == false") { REQUIRE_FALSE(comps.inside); }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The hit, when intersection occurs on the inside", "[intersections")
+{
+
+    GIVEN("r = ray(point(0, 0, 0), vector(0, 0, 1))")
+    {
+        auto r = rtc::ray_t{rtc::point(0, 0, 0), rtc::vector(0, 0, 1)};
+
+        AND_GIVEN("shape = sphere()")
+        {
+            auto shape = rtc::sphere();
+
+            AND_GIVEN("i = intersection(1, shape)")
+            {
+                auto i = rtc::intersection_t{1, shape};
+
+                WHEN("comps = prepare_compuations(i, r")
+                {
+                    auto comps = rtc::prepare_computations(i, r);
+
+                    THEN("comps.point == point(0, 0, 1)")
+                    {
+                        REQUIRE(comps.point == rtc::point(0, 0, 1));
+                    }
+                    AND_THEN("comps.eyev == vector(0, 0, -1)")
+                    {
+                        REQUIRE(comps.eyev == rtc::vector(0, 0, -1));
+                    }
+                    AND_THEN("comps.inside == true") { REQUIRE(comps.inside); }
+                    AND_THEN("comps.normalv == vector(0, 0, -1)")
+                    {
+                        REQUIRE(comps.normalv == rtc::vector(0, 0, -1));
+                    }
+                }
+            }
+        }
+    }
+}

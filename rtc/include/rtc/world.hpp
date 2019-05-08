@@ -5,6 +5,7 @@
 #include "intersections.hpp"
 #include "lights.hpp"
 #include "sphere.hpp"
+#include "transformations.hpp"
 
 #include <optional>
 #include <vector>

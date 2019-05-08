@@ -92,3 +92,175 @@ SCENARIO("Intersect a world with a ray", "[world]")
         }
     }
 }
+
+SCENARIO("Shading an intersection", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+        {
+            auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+            AND_GIVEN("shape = the first object in w")
+            {
+                const auto& shape = w.objects[0];
+
+                AND_GIVEN("i = intersection(4, shape)")
+                {
+                    auto i = rtc::intersection_t{4, shape};
+
+                    WHEN("comps = prepare_computations(i, r)")
+                    {
+                        auto comps = rtc::prepare_computations(i, r);
+
+                        AND_WHEN("c = shade_hit(w, comps)")
+                        {
+                            auto c = rtc::shade_hit(w, comps);
+
+                            THEN("c == color(0.38066, 0.47583, 0.2855)")
+                            {
+                                REQUIRE(c
+                                        == rtc::color(0.38066f, 0.47583f, 0.2855f));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Shading an intersection from the inside", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("w.light = point_light(point(0, 0.25, 0), color(1, 1, 1))")
+        {
+            w.light_source = rtc::point_light_t{rtc::point(0, 0.25f, 0),
+                                                rtc::color(1, 1, 1)};
+
+            AND_GIVEN("r = ray(point(0, 0, 0), vector(0, 0, 1))")
+            {
+                auto r = rtc::ray_t{rtc::point(0, 0, 0), rtc::vector(0, 0, 1)};
+
+                AND_GIVEN("shape = the second object in w")
+                {
+                    const auto& shape = w.objects[1];
+
+                    AND_GIVEN("i = intersection(0.5, shape)")
+                    {
+                        auto i = rtc::intersection_t{0.5f, shape};
+
+                        WHEN("comps = prepare_computations(i, r)")
+                        {
+                            auto comps = rtc::prepare_computations(i, r);
+
+                            AND_WHEN("c = shade_hit(w, comps)")
+                            {
+                                auto c = rtc::shade_hit(w, comps);
+
+                                THEN("c == color(0.90498, 0.90498, 0.90498)")
+                                {
+                                    REQUIRE(c
+                                            == rtc::color(
+                                                   0.90498f, 0.90498f, 0.90498f));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The color when a ray misses", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("r = ray(point(0, 0, -5), vector(0, 1, 0))")
+        {
+            auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 1, 0)};
+
+            WHEN("c = color_at(w, r)")
+            {
+                auto c = rtc::color_at(w, r);
+
+                THEN("c == color(0, 0, 0)") { REQUIRE(c == rtc::color(0, 0, 0)); }
+            }
+        }
+    }
+}
+
+SCENARIO("The color when a ray hits", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+        {
+            auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+            WHEN("c = color_at(w, r)")
+            {
+                auto c = rtc::color_at(w, r);
+
+                THEN("c == color(0.38066, 0.47583, 0.2855)")
+                {
+                    REQUIRE(c == rtc::color(0.38066f, 0.47583f, 0.2855f));
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The color with an intersection behind the ray", "[world]")
+{
+    GIVEN("w = default_world()")
+    {
+        auto w = rtc::default_world();
+
+        AND_GIVEN("outer = the first object in w")
+        {
+            auto& outer = w.objects[0];
+
+            AND_GIVEN("outer.material.ambient = 1")
+            {
+                outer.material.ambient = 1;
+
+                AND_GIVEN("inner = the second object in w")
+                {
+                    auto& inner = w.objects[1];
+
+                    AND_GIVEN("inner.material.ambient = 1")
+                    {
+                        inner.material.ambient = 1;
+
+                        AND_GIVEN("r = ray(point(0, 0, 0.75), vector(0, 0, -1))")
+                        {
+                            auto r = rtc::ray_t{rtc::point(0, 0, 0.75f),
+                                                rtc::vector(0, 0, -1)};
+
+                            WHEN("c = color_at(w, r)")
+                            {
+                                auto c = rtc::color_at(w, r);
+
+                                THEN("c == inner.material.color")
+                                {
+                                    REQUIRE(c == inner.material.color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

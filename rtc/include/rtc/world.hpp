@@ -55,6 +55,33 @@ struct world_t {
     return intersections;
 }
 
+[[nodiscard]] inline tuple4_t shade_hit(const world_t&        world,
+                                        const computations_t& computations)
+{
+    // @todo should world light_source be an optional object, or should
+    // there be a default "non" light?
+    return rtc::lighting(computations.object.material,
+                         *world.light_source,
+                         computations.point,
+                         computations.eyev,
+                         computations.normalv);
+}
+
+[[nodiscard]] inline tuple4_t color_at(const world_t& world, const ray_t& ray)
+{
+    tuple4_t color = {};
+
+    auto intersections = rtc::intersect(world, ray);
+    auto intersection  = rtc::hit(intersections);
+
+    if (intersection) {
+        auto comps = rtc::prepare_computations(*intersection, ray);
+        color      = rtc::shade_hit(world, comps);
+    }
+
+    return color;
+}
+
 } // namespace rtc
 
 #endif // RTC_WORLD_HPP_

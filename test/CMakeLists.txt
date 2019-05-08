@@ -13,7 +13,8 @@ target_sources(rtc-tests
             "features/rays.cpp"
             "features/spheres.cpp"
             "features/transformations.cpp"
-            "features/tuples.cpp")
+            "features/tuples.cpp"
+            "features/world.cpp")
 
 target_link_libraries(rtc-tests PRIVATE Catch2::Catch2 rtc::rtc)
 

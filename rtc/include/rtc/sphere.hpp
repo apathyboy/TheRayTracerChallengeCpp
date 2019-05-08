@@ -16,9 +16,9 @@ struct sphere_t {
     matrix4x4_t transform;
     material_t  material;
 
-    friend bool operator==(const sphere_t& l, const sphere_t& r) noexcept
+    friend bool operator==(const sphere_t& a, const sphere_t& b) noexcept
     {
-        return l.id == r.id && l.transform == r.transform;
+        return a.transform == b.transform && a.material == b.material;
     }
 };
 

@@ -34,7 +34,8 @@ struct material_t {
                                        const point_light_t& light,
                                        const tuple4_t&      position,
                                        const tuple4_t&      eyev,
-                                       const tuple4_t&      normalv)
+                                       const tuple4_t&      normalv,
+                                       bool                 in_shadow)
 {
     auto effective_color  = material.color * light.intensity;
     auto lightv           = rtc::normalize(light.position - position);
@@ -44,7 +45,7 @@ struct material_t {
     tuple4_t diffuse  = {};
     tuple4_t specular = {};
 
-    if (light_dot_normal >= 0) {
+    if (light_dot_normal >= 0 && !in_shadow) {
         diffuse = effective_color * material.diffuse * light_dot_normal;
 
         auto reflectv        = rtc::reflect(-lightv, normalv);

@@ -65,7 +65,8 @@ struct world_t {
                          *world.light_source,
                          computations.point,
                          computations.eyev,
-                         computations.normalv);
+                         computations.normalv,
+                         false);
 }
 
 [[nodiscard]] inline tuple4_t color_at(const world_t& world, const ray_t& ray)

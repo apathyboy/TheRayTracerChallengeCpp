@@ -41,7 +41,7 @@ int main()
                 auto eye    = -ray.direction;
 
                 auto color = rtc::lighting(
-                    hit->object.material, light, point, eye, normal);
+                    hit->object.material, light, point, eye, normal, false);
 
                 canvas.write_pixel(x, y, color);
             }

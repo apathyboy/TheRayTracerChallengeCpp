@@ -213,3 +213,44 @@ SCENARIO("The hit is always the lowest non-negative intersection",
         }
     }
 }
+
+SCENARIO("Precomputing the state of an intersection", "[intersections]")
+{
+    GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+    {
+        auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+        AND_GIVEN("shape = sphere()")
+        {
+            auto shape = rtc::sphere();
+
+            AND_GIVEN("i = intersection(4, shape)")
+            {
+                auto i = rtc::intersection_t{4, shape};
+
+                WHEN("comps = prepare_computations(i, r)")
+                {
+                    auto comps = rtc::prepare_computations(i, r);
+
+                    THEN("comps.t == i.t") { REQUIRE(rtc::approx(comps.t, i.t)); }
+                    AND_THEN("comps.object == i.object")
+                    {
+                        REQUIRE(comps.object == i.object);
+                    }
+                    AND_THEN("comps.point == point(0, 0, -1)")
+                    {
+                        REQUIRE(comps.point == rtc::point(0, 0, -1));
+                    }
+                    AND_THEN("comps.eyev == vector(0, 0, -1)")
+                    {
+                        REQUIRE(comps.eyev == rtc::vector(0, 0, -1));
+                    }
+                    AND_THEN("comps.normalv == vector(0, 0, -1)")
+                    {
+                        REQUIRE(comps.normalv == rtc::vector(0, 0, -1));
+                    }
+                }
+            }
+        }
+    }
+}

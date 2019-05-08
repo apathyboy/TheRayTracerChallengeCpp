@@ -70,6 +70,28 @@ hit(intersections_t intersections)
     return intersection;
 }
 
+struct computations_t {
+    float    t;
+    sphere_t object;
+    tuple4_t point;
+    tuple4_t eyev;
+    tuple4_t normalv;
+};
+
+[[nodiscard]] inline computations_t
+prepare_computations(const intersection_t& intersection, const ray_t& ray)
+{
+    computations_t comps = {};
+
+    comps.t       = intersection.t;
+    comps.object  = intersection.object;
+    comps.point   = rtc::position(ray, comps.t);
+    comps.eyev    = -ray.direction;
+    comps.normalv = rtc::normal_at(comps.object, comps.point);
+
+    return comps;
+}
+
 } // namespace rtc
 
 #endif // RTC_INTERSECTIONS_HPP_

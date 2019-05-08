@@ -67,6 +67,25 @@ shearing(float x_y, float x_z, float y_x, float y_z, float z_x, float z_y) noexc
     // clang-format on
 }
 
+[[nodiscard]] inline matrix4x4_t
+view_transform(const tuple4_t& from, const tuple4_t& to, const tuple4_t& up)
+{
+    auto forward = rtc::normalize(to - from);
+    auto left    = rtc::cross(forward, rtc::normalize(up));
+    auto true_up = rtc::cross(left, forward);
+
+    // clang-format off
+    matrix4x4_t orientation = {
+        left.x, left.y, left.z, 0,
+        true_up.x, true_up.y, true_up.z, 0,
+        -forward.x, -forward.y, -forward.z, 0,
+        0, 0, 0, 1
+    };
+    // clang-format on
+
+    return orientation * rtc::translation(-from.x, -from.y, -from.z);
+}
+
 } // namespace rtc
 
 #endif // RTC_TRANSFORMATIONS_HPP_

@@ -444,3 +444,131 @@ SCENARIO("Chained transformations must be applied in reverse order",
         }
     }
 }
+
+SCENARIO("The transformation matrix for the default orientation",
+         "[transformations]")
+{
+    GIVEN("from = point(0, 0, 0)")
+    {
+        auto from = rtc::point(0, 0, 0);
+
+        AND_GIVEN("to = point(0, 0, -1)")
+        {
+            auto to = rtc::point(0, 0, -1);
+
+            AND_GIVEN("up = vector(0, 1, 0)")
+            {
+                auto up = rtc::vector(0, 1, 0);
+
+                WHEN("t = view_transform(from, to, up)")
+                {
+                    auto t = rtc::view_transform(from, to, up);
+
+                    THEN("t == identity_matrix")
+                    {
+                        REQUIRE(t == rtc::matrix4x4_t::identity());
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("A view transformation matrix looking in positive z direction",
+         "[transformations]")
+{
+    GIVEN("from = point(0, 0, 0)")
+    {
+        auto from = rtc::point(0, 0, 0);
+
+        AND_GIVEN("to = point(0, 0, 1)")
+        {
+            auto to = rtc::point(0, 0, 1);
+
+            AND_GIVEN("up = vector(0, 1, 0)")
+            {
+                auto up = rtc::vector(0, 1, 0);
+
+                WHEN("t = view_transform(from, to, up)")
+                {
+                    auto t = rtc::view_transform(from, to, up);
+
+                    THEN("t == scaling(-1, 1, -1)")
+                    {
+                        REQUIRE(t == rtc::scaling(-1, 1, -1));
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The view transformation moves the world", "[transformations]")
+{
+    GIVEN("from = point(0, 0, 8)")
+    {
+        auto from = rtc::point(0, 0, 8);
+
+        AND_GIVEN("to = point(0, 0, 0)")
+        {
+            auto to = rtc::point(0, 0, 0);
+
+            AND_GIVEN("up = vector(0, 1, 0)")
+            {
+                auto up = rtc::vector(0, 1, 0);
+
+                WHEN("t = view_transform(from, to, up)")
+                {
+                    auto t = rtc::view_transform(from, to, up);
+
+                    THEN("t == translation(0, 0, -8)")
+                    {
+                        REQUIRE(t == rtc::translation(0, 0, -8));
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("An arbitrary view transformation", "[transformations]")
+{
+    GIVEN("from = point(1, 3, 2)")
+    {
+        auto from = rtc::point(1, 3, 2);
+
+        AND_GIVEN("to = point(4, -2, 8)")
+        {
+            auto to = rtc::point(4, -2, 8);
+
+            AND_GIVEN("up = vector(1, 1, 0)")
+            {
+                auto up = rtc::vector(1, 1, 0);
+
+                WHEN("t = view_transform(from, to, up)")
+                {
+                    auto t = rtc::view_transform(from, to, up);
+
+                    THEN(
+                        "t is the following 4x4 matrix:\n"
+                        "| -0.50709 | 0.50709 |  0.67612 | -2.36643 |\n"
+                        "|  0.76772 | 0.60609 |  0.12122 | -2.82843 |\n"
+                        "| -0.35857 | 0.59761 | -0.71714 |  0.00000 |\n"
+                        "|  0.00000 | 0.00000 |  0.00000 |  1.00000 |")
+                    {
+                        // clang-format off
+                        auto tmp = rtc::matrix4x4_t{
+                            -0.50709f, 0.50709f,  0.67612f, -2.36643f,
+                             0.76772f, 0.60609f,  0.12122f, -2.82843f,
+                            -0.35857f, 0.59761f, -0.71714f,  0.00000f,
+                             0.00000f, 0.00000f,  0.00000f,  1.00000
+                        };
+                        // clang-format on
+
+                        REQUIRE(t == tmp);
+                    }
+                }
+            }
+        }
+    }
+}

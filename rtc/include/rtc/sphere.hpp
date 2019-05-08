@@ -2,6 +2,7 @@
 #ifndef RTC_SPHERE_HPP_
 #define RTC_SPHERE_HPP_
 
+#include "materials.hpp"
 #include "matrices.hpp"
 #include "ray.hpp"
 
@@ -13,6 +14,7 @@ namespace rtc {
 struct sphere_t {
     uint32_t    id;
     matrix4x4_t transform;
+    material_t  material;
 
     friend bool operator==(const sphere_t& l, const sphere_t& r) noexcept
     {
@@ -24,7 +26,7 @@ struct sphere_t {
 {
     static uint32_t next_id = 0;
 
-    return sphere_t{next_id++, matrix4x4_t::identity()};
+    return sphere_t{next_id++, matrix4x4_t::identity(), rtc::material()};
 }
 
 [[nodiscard]] inline tuple4_t normal_at(const sphere_t& sphere,

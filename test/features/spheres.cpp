@@ -1,5 +1,6 @@
 
 #include <rtc/intersections.hpp>
+#include <rtc/materials.hpp>
 #include <rtc/ray.hpp>
 #include <rtc/sphere.hpp>
 #include <rtc/transformations.hpp>
@@ -354,6 +355,46 @@ SCENARIO("Computing the normal on a transformed sphere", "[spheres]")
                     {
                         REQUIRE(n == rtc::vector(0, 0.97014f, -0.24254f));
                     }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("A sphere has a default material", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("m = s.material")
+        {
+            auto m = s.material;
+
+            THEN("m == material()") { REQUIRE(m == rtc::material()); }
+        }
+    }
+}
+
+SCENARIO("A sphere may be assigned a material", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        AND_GIVEN("m = material()")
+        {
+            auto m = rtc::material();
+
+            AND_GIVEN("m.ambient = 1")
+            {
+                m.ambient = 1;
+
+                WHEN("s.material = m")
+                {
+                    s.material = m;
+
+                    THEN("s.material == m") { REQUIRE(s.material == m); }
                 }
             }
         }

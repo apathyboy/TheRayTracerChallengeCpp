@@ -84,6 +84,20 @@ struct world_t {
     return color;
 }
 
+[[nodiscard]] inline bool is_shadowed(const world_t& world, const tuple4_t& point)
+{
+    auto v         = world.light_source->position - point;
+    auto distance  = rtc::magnitude(v);
+    auto direction = rtc::normalize(v);
+
+    auto r             = rtc::ray_t{point, direction};
+    auto intersections = rtc::intersect(world, r);
+
+    auto h = rtc::hit(intersections);
+
+    return (h && h->t < distance);
+}
+
 } // namespace rtc
 
 #endif // RTC_WORLD_HPP_

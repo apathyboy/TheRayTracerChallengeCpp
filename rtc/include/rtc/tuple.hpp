@@ -249,6 +249,12 @@ template <typename T>
         a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 
+[[nodiscard]] inline tuple4_t reflect(const tuple4_t& in,
+                                      const tuple4_t& normal) noexcept
+{
+    return in - normal * 2 * rtc::dot(in, normal);
+}
+
 } // namespace rtc
 
 #endif // RTC_TUPLE_HPP_

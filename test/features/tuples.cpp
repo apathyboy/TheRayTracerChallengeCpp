@@ -417,3 +417,43 @@ SCENARIO("Multiplying colors", "[tuples]")
         }
     }
 }
+
+SCENARIO("Reflecting a vector approaching at 45 degrees", "[tuples]")
+{
+    GIVEN("v = vector(1, -1, 0)")
+    {
+        auto v = rtc::vector(1, -1, 0);
+
+        AND_GIVEN("n = vector(0, 1, 0)")
+        {
+            auto n = rtc::vector(0, 1, 0);
+
+            WHEN("r = reflect(v, n)")
+            {
+                auto r = rtc::reflect(v, n);
+
+                THEN("r == vector(1, 1, 0)") { REQUIRE(r == rtc::vector(1, 1, 0)); }
+            }
+        }
+    }
+}
+
+SCENARIO("Reflecting a vector off a slanted surface", "[tuples]")
+{
+    GIVEN("v = vector(0, -1, 0)")
+    {
+        auto v = rtc::vector(0, -1, 0);
+
+        AND_GIVEN("n = vector(sqrt(2)/2, sqrt(2)/2, 0)")
+        {
+            auto n = rtc::vector(std::sqrtf(2) / 2, std::sqrtf(2) / 2, 0);
+
+            WHEN("r = reflect(v, n)")
+            {
+                auto r = rtc::reflect(v, n);
+
+                THEN("r == vector(1, 0, 0)") { REQUIRE(r == rtc::vector(1, 0, 0)); }
+            }
+        }
+    }
+}

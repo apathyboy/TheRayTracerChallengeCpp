@@ -220,3 +220,90 @@ SCENARIO("Intersecting a translated sphere with a ray", "[spheres]")
         }
     }
 }
+
+SCENARIO("The normal on a sphere at a point on the x axis", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("n = normal_at(s, point(1, 0, 0))")
+        {
+            auto n = rtc::normal_at(s, rtc::point(1, 0, 0));
+
+            THEN("n == vector(1, 0, 0)") { REQUIRE(n == rtc::vector(1, 0, 0)); }
+        }
+    }
+}
+
+SCENARIO("The normal on a sphere at a point on the y axis", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("n = normal_at(s, point(0, 1, 0))")
+        {
+            auto n = rtc::normal_at(s, rtc::point(0, 1, 0));
+
+            THEN("n == vector(0, 1, 0)") { REQUIRE(n == rtc::vector(0, 1, 0)); }
+        }
+    }
+}
+
+SCENARIO("The normal on a sphere at a point on the z axis", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("n = normal_at(s, point(0, 0, 1))")
+        {
+            auto n = rtc::normal_at(s, rtc::point(0, 0, 1));
+
+            THEN("n == vector(0, 0, 1)") { REQUIRE(n == rtc::vector(0, 0, 1)); }
+        }
+    }
+}
+
+SCENARIO("The normal on a sphere at a nonaxial point", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("n = normal_at(s, point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))")
+        {
+            auto n = rtc::normal_at(s,
+                                    rtc::point(std::sqrtf(3) / 3,
+                                               std::sqrtf(3) / 3,
+                                               std::sqrtf(3) / 3));
+
+            THEN("n == vector(0, 0, 1)")
+            {
+                REQUIRE(n
+                        == rtc::vector(std::sqrtf(3) / 3,
+                                       std::sqrtf(3) / 3,
+                                       std::sqrtf(3) / 3));
+            }
+        }
+    }
+}
+
+SCENARIO("The normal is a normalization vector", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        WHEN("n = normal_at(s, point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3))")
+        {
+            auto n = rtc::normal_at(s,
+                                    rtc::point(std::sqrtf(3) / 3,
+                                               std::sqrtf(3) / 3,
+                                               std::sqrtf(3) / 3));
+
+            THEN("n == normalize(n)") { REQUIRE(n == rtc::normalize(n)); }
+        }
+    }
+}

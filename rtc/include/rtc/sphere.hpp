@@ -27,6 +27,13 @@ struct sphere_t {
     return sphere_t{next_id++, matrix4x4_t::identity()};
 }
 
+[[nodiscard]] inline tuple4_t normal_at(const sphere_t& sphere,
+                                        const tuple4_t& point)
+{
+    (sphere);
+    return rtc::normalize(point - rtc::point(0, 0, 0));
+}
+
 } // namespace rtc
 
 #endif // RTC_SPHERE_HPP_

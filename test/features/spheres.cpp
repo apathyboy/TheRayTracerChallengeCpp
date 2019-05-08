@@ -307,3 +307,55 @@ SCENARIO("The normal is a normalization vector", "[spheres]")
         }
     }
 }
+
+SCENARIO("Computing the normal on a translated sphere", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        AND_GIVEN("set_transform(s, translation(0, 1, 0))")
+        {
+            s.transform = rtc::translation(0, 1, 0);
+
+            WHEN("n = normal_at(s, point(0, 1.70711, -0.70711))")
+            {
+                auto n = rtc::normal_at(s, rtc::point(0, 1.70711f, -0.70711f));
+
+                THEN("n == vector(0, 0.70711, -0.70711")
+                {
+                    REQUIRE(n == rtc::vector(0, 0.70711f, -0.70711f));
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("Computing the normal on a transformed sphere", "[spheres]")
+{
+    GIVEN("s = sphere()")
+    {
+        auto s = rtc::sphere();
+
+        AND_GIVEN("m = scaling(1, 0.5, 1) * rotation_z(PI/5)")
+        {
+            auto m = rtc::scaling(1, 0.5f, 1) * rtc::rotation_z(rtc::PI / 5);
+
+            AND_GIVEN("set_transform(s, m")
+            {
+                s.transform = m;
+
+                WHEN("n = normal_at(s, point(0, sqrt(2)/2, sqrt(2)/2))")
+                {
+                    auto n = rtc::normal_at(
+                        s, rtc::point(0, std::sqrtf(2) / 2, -std::sqrtf(2) / 2));
+
+                    THEN("n == vector(0, 0.97014, -0.24254")
+                    {
+                        REQUIRE(n == rtc::vector(0, 0.97014f, -0.24254f));
+                    }
+                }
+            }
+        }
+    }
+}

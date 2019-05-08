@@ -31,7 +31,14 @@ struct sphere_t {
                                         const tuple4_t& point)
 {
     (sphere);
-    return rtc::normalize(point - rtc::point(0, 0, 0));
+    auto object_point  = rtc::inverse(sphere.transform) * point;
+    auto object_normal = object_point - rtc::point(0, 0, 0);
+
+    auto world_normal = rtc::transpose(rtc::inverse(sphere.transform))
+                        * object_normal;
+    world_normal.w = 0;
+
+    return rtc::normalize(world_normal);
 }
 
 } // namespace rtc

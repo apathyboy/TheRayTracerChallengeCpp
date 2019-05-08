@@ -133,7 +133,7 @@ SCENARIO("Constructing the BMP pixel data")
 
                                     THEN("bmp.data at offset 0 is 255")
                                     {
-                                        REQUIRE(bmp.data[0] == 255);
+                                        REQUIRE(bmp.data[2] == 255);
                                     }
                                     AND_THEN("bmp.data at offset 29 is 128")
                                     {
@@ -141,7 +141,7 @@ SCENARIO("Constructing the BMP pixel data")
                                     }
                                     AND_THEN("bmp.data at offset 58 is 255")
                                     {
-                                        REQUIRE(bmp.data[58] == 255);
+                                        REQUIRE(bmp.data[56] == 255);
                                     }
                                 }
                             }

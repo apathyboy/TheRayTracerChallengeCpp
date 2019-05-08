@@ -1,6 +1,7 @@
 
 #include <rtc/sphere.hpp>
 #include <rtc/intersections.hpp>
+#include <rtc/transformations.hpp>
 
 #include <catch2/catch.hpp>
 
@@ -311,6 +312,41 @@ SCENARIO("The hit, when intersection occurs on the inside", "[intersections")
                     AND_THEN("comps.normalv == vector(0, 0, -1)")
                     {
                         REQUIRE(comps.normalv == rtc::vector(0, 0, -1));
+                    }
+                }
+            }
+        }
+    }
+}
+
+SCENARIO("The hit should offset the point", "[intersections]")
+{
+    GIVEN("r = ray(point(0, 0, -5), vector(0, 0, 1))")
+    {
+        auto r = rtc::ray_t{rtc::point(0, 0, -5), rtc::vector(0, 0, 1)};
+
+        AND_GIVEN(
+            "shape = sphere() with:\n"
+            "| transform | translation(0, 0, 1) |")
+        {
+            auto shape      = rtc::sphere();
+            shape.transform = rtc::translation(0, 0, 1);
+
+            AND_GIVEN("i = intersection(5, shape)")
+            {
+                auto i = rtc::intersection_t{5, shape};
+
+                WHEN("comps = prepare_computations(i, r)")
+                {
+                    auto comps = rtc::prepare_computations(i, r);
+
+                    THEN("comps.over_point.z < -EPSILON/2")
+                    {
+                        REQUIRE(comps.over_point.z < -rtc::EPSILON / 2);
+                    }
+                    AND_THEN("comps.point.z > comps.over_point.z")
+                    {
+                        REQUIRE(comps.point.z > comps.over_point.z);
                     }
                 }
             }

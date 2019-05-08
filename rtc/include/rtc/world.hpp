@@ -56,9 +56,25 @@ struct world_t {
     return intersections;
 }
 
+[[nodiscard]] inline bool is_shadowed(const world_t& world, const tuple4_t& point)
+{
+    auto v         = world.light_source->position - point;
+    auto distance  = rtc::magnitude(v);
+    auto direction = rtc::normalize(v);
+
+    auto r             = rtc::ray_t{point, direction};
+    auto intersections = rtc::intersect(world, r);
+
+    auto h = rtc::hit(intersections);
+
+    return (h && h->t < distance);
+}
+
 [[nodiscard]] inline tuple4_t shade_hit(const world_t&        world,
                                         const computations_t& computations)
 {
+    auto shadowed = rtc::is_shadowed(world, computations.over_point);
+
     // @todo should world light_source be an optional object, or should
     // there be a default "non" light?
     return rtc::lighting(computations.object.material,
@@ -66,7 +82,7 @@ struct world_t {
                          computations.point,
                          computations.eyev,
                          computations.normalv,
-                         false);
+                         shadowed);
 }
 
 [[nodiscard]] inline tuple4_t color_at(const world_t& world, const ray_t& ray)
@@ -82,20 +98,6 @@ struct world_t {
     }
 
     return color;
-}
-
-[[nodiscard]] inline bool is_shadowed(const world_t& world, const tuple4_t& point)
-{
-    auto v         = world.light_source->position - point;
-    auto distance  = rtc::magnitude(v);
-    auto direction = rtc::normalize(v);
-
-    auto r             = rtc::ray_t{point, direction};
-    auto intersections = rtc::intersect(world, r);
-
-    auto h = rtc::hit(intersections);
-
-    return (h && h->t < distance);
 }
 
 } // namespace rtc

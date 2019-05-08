@@ -334,3 +334,69 @@ SCENARIO("There is no shadow when an object is behind the point", "[world]")
         }
     }
 }
+
+SCENARIO("shade_hit() is given an intersection in shadow", "[world]")
+{
+    GIVEN("w = world()")
+    {
+        auto w = rtc::world_t{};
+
+        AND_GIVEN("w.light = point_light(point(0, 0, -10), color(1, 1, 1))")
+        {
+            w.light_source = rtc::point_light_t{rtc::point(0, 0, -10),
+                                                rtc::color(1, 1, 1)};
+
+            AND_GIVEN("s1 = sphere()")
+            {
+                auto s1 = rtc::sphere();
+
+                AND_GIVEN("s1 is added to w")
+                {
+                    w.objects.push_back(s1);
+
+                    AND_GIVEN(
+                        "s2 = sphere() with:\n"
+                        "| transform | translation(0, 0, 10) |")
+                    {
+                        auto s2      = rtc::sphere();
+                        s2.transform = rtc::translation(0, 0, 10);
+
+                        AND_GIVEN("s2 is added to w")
+                        {
+                            w.objects.push_back(s2);
+
+                            AND_GIVEN("r = ray(point(0, 0, 5), vector(0, 0, 1))")
+                            {
+                                auto r = rtc::ray_t{rtc::point(0, 0, 5),
+                                                    rtc::vector(0, 0, 1)};
+
+                                AND_GIVEN("i = intersection(4, s2)")
+                                {
+                                    auto i = rtc::intersection_t{4, s2};
+
+                                    WHEN("comps = prepare_computations(i, r)")
+                                    {
+                                        auto comps = rtc::prepare_computations(i,
+                                                                               r);
+
+                                        AND_WHEN("c = shade_hit(w, comps)")
+                                        {
+                                            auto c = rtc::shade_hit(w, comps);
+
+                                            THEN("c == color(0.1, 0.1, 0.1)")
+                                            {
+                                                REQUIRE(c
+                                                        == rtc::color(
+                                                               0.1f, 0.1f, 0.1f));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

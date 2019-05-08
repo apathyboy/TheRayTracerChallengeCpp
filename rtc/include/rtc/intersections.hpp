@@ -74,6 +74,7 @@ struct computations_t {
     float    t;
     sphere_t object;
     tuple4_t point;
+    tuple4_t over_point;
     tuple4_t eyev;
     tuple4_t normalv;
     bool     inside;
@@ -94,6 +95,8 @@ prepare_computations(const intersection_t& intersection, const ray_t& ray)
         comps.inside  = true;
         comps.normalv = -comps.normalv;
     }
+
+    comps.over_point = comps.point + comps.normalv * rtc::EPSILON;
 
     return comps;
 }

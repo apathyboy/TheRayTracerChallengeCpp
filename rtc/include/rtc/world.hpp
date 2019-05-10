@@ -75,8 +75,6 @@ struct world_t {
 {
     auto shadowed = rtc::is_shadowed(world, computations.over_point);
 
-    // @todo should world light_source be an optional object, or should
-    // there be a default "non" light?
     return rtc::lighting(computations.object.material,
                          *world.light_source,
                          computations.point,

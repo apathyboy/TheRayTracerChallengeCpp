@@ -174,7 +174,6 @@ using tuple4_t = tuple_t<4, float>;
     return {a.x * b, a.y * b, a.z * b, a.w * b};
 }
 
-// @todo prevent divide by 0
 [[nodiscard]] inline tuple2_t operator/(const tuple2_t& a, float b)
 {
     return {a.x / b, a.y / b};

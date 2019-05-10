@@ -13,6 +13,7 @@ target_sources(rtc-tests
             "features/matrices.cpp"
             "features/rays.cpp"
             "features/spheres.cpp"
+            "features/shapes.cpp"
             "features/transformations.cpp"
             "features/tuples.cpp"
             "features/world.cpp")
